@@ -1,12 +1,17 @@
 package com.media30.zglosproblem.mobileapp;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.*;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    //deklaracje stałych do przesyłania danych
+    public final static String IMAGE = "com.media30.zglosproblem.mobileapp.image";
+    public final static String POSITION = "com.media30.zglosproblem.mobileapp.position";
+    public final static String DESCRIPTION = "com.media30.zglosproblem.mobileapp.description";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +34,30 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            //przycisk "Ustawienia"
+            pokazUstawienia();
+            return true;
+        }
+        if(id == R.id.action_exit){
+            //wyjście z aplikacji (wyrzucenie całości z pamięci telefonu)
+            System.exit(0);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void pokazUstawienia(){
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    public void menuClick(View view){
+        pokazUstawienia();
+    }
+
+    public void startClick(View view){
+        //startowanie kreatora
+        Intent intent = new Intent(this, ImageActivity.class);
+        startActivity(intent);
     }
 }

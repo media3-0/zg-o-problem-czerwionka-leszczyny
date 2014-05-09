@@ -2,8 +2,10 @@
 <resources>
 
     <string name="app_name">Zgłoś Problem</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Ustawienia</string>
     <string name="action_exit">Wyjdź</string>
+    <string name="menu">MENU</string>
+    <string name="start">START</string>
+    <string name="title_activity_image">ImageActivity</string>
 
 </resources>

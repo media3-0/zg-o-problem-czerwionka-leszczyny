@@ -16,6 +16,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.media30.zglosproblem.mobileapp.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName="com.media30.zglosproblem.mobileapp.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MainActivity" />
+        </activity>
+        <activity
+            android:name="com.media30.zglosproblem.mobileapp.ImageActivity"
+            android:label="@string/title_activity_image"
+            android:parentActivityName="com.media30.zglosproblem.mobileapp.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MainActivity" />
+        </activity>
     </application>
 
 </manifest>
