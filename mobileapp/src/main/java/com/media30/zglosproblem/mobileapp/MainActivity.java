@@ -1,5 +1,6 @@
 package com.media30.zglosproblem.mobileapp;
 
+import android.app.Application;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -40,7 +41,8 @@ public class MainActivity extends ActionBarActivity {
         }
         if(id == R.id.action_exit){
             //wyjście z aplikacji (wyrzucenie całości z pamięci telefonu)
-            System.exit(0);
+            //System.exit(0);
+            quit();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -59,5 +61,13 @@ public class MainActivity extends ActionBarActivity {
         //startowanie kreatora
         Intent intent = new Intent(this, ImageActivity.class);
         startActivity(intent);
+    }
+
+    public void quit() {
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(startMain);
     }
 }

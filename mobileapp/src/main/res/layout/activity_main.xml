@@ -21,7 +21,7 @@
         android:paddingRight="20dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:onClick="menuClick"
+        android:onClick="startClick"
         android:textStyle="bold"
         android:textSize="30dp" />
 
@@ -38,6 +38,6 @@
         android:paddingBottom="10dp"
         android:textStyle="bold"
         android:singleLine="false"
-        android:onClick="startClick"
+        android:onClick="menuClick"
         android:textSize="30dp" />
 </RelativeLayout>

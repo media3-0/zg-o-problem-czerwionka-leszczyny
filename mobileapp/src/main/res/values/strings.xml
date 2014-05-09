@@ -7,5 +7,7 @@
     <string name="menu">MENU</string>
     <string name="start">START</string>
     <string name="title_activity_image">ImageActivity</string>
+    <string name="pick_from_gallery">Galeria</string>
+    <string name="take_picture">ZDJĘCIE</string>
 
 </resources>
