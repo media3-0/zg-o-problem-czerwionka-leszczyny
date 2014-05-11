@@ -143,6 +143,8 @@ public class ImageActivity extends ActionBarActivity {
 
     public void dalejClick(View view){
         //Przycisk "Dalej"
+        Intent intent = new Intent(this, LocationActivity.class);
+        startActivity(intent);
     }
 
 }
