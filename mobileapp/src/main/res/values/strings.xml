@@ -13,5 +13,6 @@
     <string name="gps_network_not_enabled">Lokalizacja poprzez GPS oraz sieć nie jest włączona. Zrób to w ustawieniach!</string>
     <string name="open_location_settings">Ustawienia</string>
     <string name="Cancel">Anuluj</string>
+    <string name="title_activity_description">Podaj opis zgłoszenia</string>
 
 </resources>

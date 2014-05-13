@@ -29,16 +29,6 @@ public class LocationActivity extends FragmentActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_location_all);
         setUpMapIfNeeded();
-
-        View loc = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getView();
-        View locationButton = ((View) loc.findViewById(1).getParent()).findViewById(2);
-
-        RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-        rlp.setMargins(30, 0, 0, 30);
     }
 
     @Override
@@ -71,6 +61,22 @@ public class LocationActivity extends FragmentActivity {
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
+
+                View loc = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getView();
+                View map = loc.findViewById(1);
+
+                View mapParent = (View)map.getParent();
+                View locationButton = mapParent.findViewById(2);
+
+                RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
+                rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+                rlp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
+                rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+                rlp.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+                rlp.setMargins(30, 0, 0, 30);
+
+                //pokaż przycisk "moja lokalizacja"
+                mMap.setMyLocationEnabled(true);
             }
         }
     }
@@ -82,8 +88,6 @@ public class LocationActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-
-        mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
@@ -147,5 +151,7 @@ public class LocationActivity extends FragmentActivity {
 
     public void dalejClick(View view){
         //przycisk dalej
+        Intent intent = new Intent(this, DescriptionActivity.class);
+        startActivity(intent);
     }
 }
