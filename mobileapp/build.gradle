@@ -10,10 +10,19 @@ android {
         versionCode 1
         versionName "0.1"
     }
+    signingConfigs {
+        release {
+            storeFile file('klucz.jks')
+            storePassword 'nekro1991'
+            keyAlias 'media30releasekey'
+            keyPassword 'nekro1991'
+        }
+    }
     buildTypes {
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
         }
     }
 }

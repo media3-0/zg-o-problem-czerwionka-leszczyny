@@ -53,7 +53,15 @@
             android:parentActivityName="com.media30.zglosproblem.mobileapp.LocationActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="LocationActivity" />
+                android:value="com.media30.zglosproblem.mobileapp.LocationActivity" />
+        </activity>
+        <activity
+            android:name="com.media30.zglosproblem.mobileapp.SummaryActivity"
+            android:label="@string/title_activity_summary"
+            android:parentActivityName="com.media30.zglosproblem.mobileapp.DescriptionActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.media30.zglosproblem.mobileapp.DescriptionActivity" />
         </activity>
     </application>
 

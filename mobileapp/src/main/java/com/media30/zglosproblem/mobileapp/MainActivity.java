@@ -1,6 +1,5 @@
 package com.media30.zglosproblem.mobileapp;
 
-import android.app.Application;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;

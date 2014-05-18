@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.RelativeLayout;
@@ -35,6 +36,11 @@ public class LocationActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu (Menu menu) {
+        return false;
     }
 
     /**
@@ -92,10 +98,9 @@ public class LocationActivity extends FragmentActivity {
             @Override
             public boolean onMyLocationButtonClick() {
                 final Context context = LocationActivity.this;
-                LocationManager lm = null;
+                LocationManager lm;
                 boolean gps_enabled = false, network_enabled = false;
-                if(lm==null)
-                    lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+                lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
                 try{
                     gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
                 }catch(Exception ex){}

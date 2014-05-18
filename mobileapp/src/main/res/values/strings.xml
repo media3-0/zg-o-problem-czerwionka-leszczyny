@@ -14,5 +14,9 @@
     <string name="open_location_settings">Ustawienia</string>
     <string name="Cancel">Anuluj</string>
     <string name="title_activity_description">Podaj opis zgłoszenia</string>
+    <string name="title_activity_summary">SummaryActivity</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="cancel_message">Czy na pewno chcesz anulować? Stracisz wszystkie dotychczasowe kroki!</string>
 
 </resources>
