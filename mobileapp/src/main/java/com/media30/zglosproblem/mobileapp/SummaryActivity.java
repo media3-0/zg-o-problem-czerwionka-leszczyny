@@ -15,13 +15,12 @@ import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import com.loopj.android.http.*;
-
 import org.apache.http.Header;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.text.DecimalFormat;
 
 
 public class SummaryActivity extends ActionBarActivity {
@@ -30,11 +29,26 @@ public class SummaryActivity extends ActionBarActivity {
     boolean location;
     boolean image;
 
+    TextView tvSending;
+    ProgressBar progress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_summary);
+        tvSending = (TextView)findViewById(R.id.tvSending);
+        progress = (ProgressBar)findViewById(R.id.progressBar);
+    }
+
+    private void showSending(){
+        tvSending.setVisibility(View.VISIBLE);
+        progress.setVisibility(View.VISIBLE);
+    }
+
+    private void hideSending(){
+        tvSending.setVisibility(View.INVISIBLE);
+        progress.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -124,6 +138,7 @@ public class SummaryActivity extends ActionBarActivity {
 
     public void sendReport(){
         //wysyłanie zgłoszenia
+        showSending();
         AsyncHttpClient client = new AsyncHttpClient();
         SharedPreferences sp = getSharedPreferences(MainActivity.SHARED_PREFS, Context.MODE_PRIVATE);
         RequestParams rp = new RequestParams();
@@ -138,6 +153,15 @@ public class SummaryActivity extends ActionBarActivity {
             }
         }
         client.post("http://192.168.1.11/zgloszenie/upload.php", rp, new TextHttpResponseHandler(){
+
+            @Override
+            public void onProgress(int bytesWritten, int totalSize) {
+                super.onProgress(bytesWritten, totalSize);
+                //postęp
+                progress.setMax(totalSize);
+                progress.setProgress(bytesWritten);
+            }
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseBody) {
                 Log.d("onSuccess", "Status code: " + statusCode + "\n" + responseBody);
@@ -181,14 +205,15 @@ public class SummaryActivity extends ActionBarActivity {
                     }
                 });
                 dialog.show();
+                hideSending();
             }
         });
     }
 
     public void wyslijClick(View view){
-        if(!image || !location){
+        if(!description || !location){
             AlertDialog.Builder dialog = new AlertDialog.Builder(SummaryActivity.this);
-            dialog.setMessage(getResources().getString(R.string.no_loc_image_message));
+            dialog.setMessage(getResources().getString(R.string.no_loc_desc_message));
             dialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface paramDialogInterface, int paramInt) {
@@ -199,9 +224,9 @@ public class SummaryActivity extends ActionBarActivity {
             return;
         }
 
-        if(!description){
+        if(!image){
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setMessage(this.getResources().getString(R.string.no_desc_message));
+            dialog.setMessage(this.getResources().getString(R.string.no_image_message));
             dialog.setPositiveButton(this.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface paramDialogInterface, int paramInt) {
