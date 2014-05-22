@@ -1,8 +1,10 @@
 package com.media30.zglosproblem.mobileapp;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -10,10 +12,13 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.*;
 import android.widget.ImageView;
 import android.graphics.Bitmap;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,8 +29,8 @@ public class ImageActivity extends ActionBarActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_SELECT_PHOTO = 2;
     private ImageView iv;
-    private String mCurrentPhotoPath;
     private File photoFile = null;
+    private boolean imageSet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,15 +59,44 @@ public class ImageActivity extends ActionBarActivity {
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = this.getApplicationContext().getExternalFilesDir(
                 Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
+        return File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
+    }
 
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
-        return image;
+    private Bitmap decodeFile(File f){
+        try {
+            //Decode image size
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(new FileInputStream(f),null,o);
+
+            //The new size we want to scale to
+            final int REQUIRED_SIZE=500;
+
+            //Find the correct scale value. It should be the power of 2.
+            int scale=1;
+            while(o.outWidth/scale/2>=REQUIRED_SIZE && o.outHeight/scale/2>=REQUIRED_SIZE)
+                scale*=2;
+
+            //Decode with inSampleSize
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize=scale;
+            return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
+        } catch (FileNotFoundException e) {}
+        return null;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SharedPreferences sp = getSharedPreferences(MainActivity.SHARED_PREFS, Context.MODE_PRIVATE);
+        if(!TextUtils.isEmpty(sp.getString(MainActivity.IMAGE, "")) && !imageSet){
+            Bitmap imageBitmap = decodeFile(new File(sp.getString(MainActivity.IMAGE, "")));
+            iv.setImageBitmap(imageBitmap);
+        }
     }
 
     public void takePicture(View view){
@@ -101,11 +135,17 @@ public class ImageActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        SharedPreferences sp = getSharedPreferences(MainActivity.SHARED_PREFS, Context.MODE_PRIVATE);
+
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             //zdjęcie zrobione aparatem
             if(photoFile != null && photoFile.exists()) {
-                Bitmap imageBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                Bitmap imageBitmap = decodeFile(new File(photoFile.getAbsolutePath()));
                 iv.setImageBitmap(imageBitmap);
+                imageSet = true;
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString(MainActivity.IMAGE, photoFile.getAbsolutePath());
+                editor.commit();
             }
         }else if(requestCode == REQUEST_SELECT_PHOTO && resultCode == RESULT_OK){
             //zdjęcie wybrane z galerii
@@ -121,8 +161,12 @@ public class ImageActivity extends ActionBarActivity {
             cursor.close();
 
 
-            Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
+            Bitmap yourSelectedImage = decodeFile(new File(filePath));
             iv.setImageBitmap(yourSelectedImage);
+            imageSet = true;
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString(MainActivity.IMAGE, filePath);
+            editor.commit();
         }
     }
 

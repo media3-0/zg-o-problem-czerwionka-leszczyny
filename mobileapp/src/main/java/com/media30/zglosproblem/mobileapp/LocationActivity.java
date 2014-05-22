@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.RelativeLayout;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -36,6 +38,17 @@ public class LocationActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SharedPreferences sp = getSharedPreferences(MainActivity.SHARED_PREFS, Context.MODE_PRIVATE);
+        if(sp.getLong(MainActivity.POS_LAT, 0) != 0) {
+            LatLng ll = new LatLng(Double.longBitsToDouble(sp.getLong(MainActivity.POS_LAT, 0)), Double.longBitsToDouble(sp.getLong(MainActivity.POS_LNG, 0)));
+            setMapPosition(ll);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 13));
+        }
     }
 
     @Override
@@ -147,6 +160,11 @@ public class LocationActivity extends FragmentActivity {
         }else{
             mark.setPosition(latLng);
         }
+        SharedPreferences sp = getSharedPreferences(MainActivity.SHARED_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putLong(MainActivity.POS_LAT, Double.doubleToLongBits(mark.getPosition().latitude));
+        editor.putLong(MainActivity.POS_LNG, Double.doubleToLongBits(mark.getPosition().longitude));
+        editor.commit();
     }
 
     public void wsteczClick(View view){

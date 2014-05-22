@@ -1,6 +1,8 @@
 package com.media30.zglosproblem.mobileapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.*;
@@ -9,9 +11,11 @@ import android.view.*;
 public class MainActivity extends ActionBarActivity {
 
     //deklaracje stałych do przesyłania danych
-    public final static String IMAGE = "com.media30.zglosproblem.mobileapp.image";
-    public final static String POSITION = "com.media30.zglosproblem.mobileapp.position";
-    public final static String DESCRIPTION = "com.media30.zglosproblem.mobileapp.description";
+    public final static String SHARED_PREFS = "PREFS_PRIVATE";
+    public final static String IMAGE = "PREF_IMAGE";
+    public final static String POS_LAT = "PREF_POSITION_LAT";
+    public final static String POS_LNG = "PREF_POSITION_LNG";
+    public final static String DESCRIPTION = "PREF_DESCRIPTION";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,14 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void startClick(View view){
+        //czyszczenie danych
+        SharedPreferences sp = getSharedPreferences(MainActivity.SHARED_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(MainActivity.IMAGE, "");
+        editor.putLong(MainActivity.POS_LAT, 0);
+        editor.putLong(MainActivity.POS_LNG, 0);
+        editor.putString(MainActivity.DESCRIPTION, "");
+        editor.commit();
         //startowanie kreatora
         Intent intent = new Intent(this, ImageActivity.class);
         startActivity(intent);

@@ -18,5 +18,9 @@
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
     <string name="cancel_message">Czy na pewno chcesz anulować? Stracisz wszystkie dotychczasowe kroki!</string>
+    <string name="ok">OK</string>
+    <string name="no_loc_image_message">Aby wysłać zgłoszenie potrzebujesz zdjęcia oraz zaznaczenia lokalizacji!</string>
+    <string name="no_desc_message">Czy na pewno chcesz wysłać zgłoszenie bez opisu?</string>
+    <string name="send_success_message">Twoje zgłoszenie zostało wysłane</string>
 
 </resources>
