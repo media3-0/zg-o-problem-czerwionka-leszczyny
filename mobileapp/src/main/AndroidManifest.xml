@@ -63,6 +63,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.media30.zglosproblem.mobileapp.DescriptionActivity" />
         </activity>
+        <activity
+            android:name="com.media30.zglosproblem.mobileapp.ListActivity"
+            android:label="@string/title_activity_list"
+            android:parentActivityName="com.media30.zglosproblem.mobileapp.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MainActivity" />
+        </activity>
+        <activity
+            android:name="com.media30.zglosproblem.mobileapp.DetailsActivity"
+            android:label="@string/title_activity_details"
+            android:parentActivityName="com.media30.zglosproblem.mobileapp.ListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ListActivity" />
+        </activity>
     </application>
 
     <uses-feature

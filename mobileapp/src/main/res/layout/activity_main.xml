@@ -40,4 +40,15 @@
         android:singleLine="false"
         android:onClick="menuClick"
         android:textSize="30dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Listy"
+        android:id="@+id/button3"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/button2"
+        android:layout_alignEnd="@+id/button2"
+        android:layout_marginTop="146dp"
+        android:onClick="listyClick" />
 </RelativeLayout>

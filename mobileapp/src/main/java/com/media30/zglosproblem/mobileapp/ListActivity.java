@@ -1,0 +1,346 @@
+package com.media30.zglosproblem.mobileapp;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.location.LocationManager;
+import android.provider.Settings;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.os.Bundle;
+import android.support.v4.app.FragmentTabHost;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
+import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import org.json.JSONArray;
+import org.json.JSONException;
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class ListActivity extends FragmentActivity {
+
+    private ProgressDialog pd;
+    public boolean closing = false;
+    public int actualFragmentId;
+    public List<Report> reportList;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_list);
+
+        closing = false;
+
+        FragmentTabHost mTabHost = (FragmentTabHost) findViewById(R.id.tabHost);
+        mTabHost.setup(this, getSupportFragmentManager(), R.id.readTabContent);
+
+        mTabHost.addTab(mTabHost.newTabSpec("miniatury").setIndicator("Miniatury"),
+                ReportsThumbsFragment.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("mapa").setIndicator("Mapa"),
+                ReportsMapFragment.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("lista").setIndicator("Lista"),
+                ReportsListFragment.class, null);
+        AsyncHttpClient httpClient = new AsyncHttpClient();
+        pd = ProgressDialog.show(this, "Proszę czekać", "Trwa pobieranie listy zgłoszeń", true, false);
+        httpClient.get(MainActivity.HOST + "list.php", new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(JSONArray response) {
+                if(response.length() > 0){
+                    reportList = new ArrayList<Report>(response.length());
+                    for(int i = 0; i < response.length(); i++){
+                        try {
+                            reportList.add(new Report(response.getJSONObject(i)));
+                        }catch (JSONException e){
+                            Log.e("JSONException", e.toString());
+                        }
+                    }
+                    RefreshableFragment rf = (RefreshableFragment)getSupportFragmentManager().findFragmentById(actualFragmentId);
+                    if(rf != null){
+                        rf.refresh();
+                    }
+                }else{
+                    Toast toast = Toast.makeText(getApplicationContext(), "Brak zgłoszeń", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                pd.dismiss();
+                Log.d("onSuccessJson", response.toString());
+            }
+
+            @Override
+            public void onFailure(String responseBody, Throwable error) {
+                pd.dismiss();
+                Log.e("onFailureJson", responseBody);
+                Toast toast = Toast.makeText(getApplicationContext(), "Błąd podczas pobierania listy", Toast.LENGTH_LONG);
+                toast.show();
+            }
+        });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return keyCode == KeyEvent.KEYCODE_MENU || super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        //getMenuInflater().inflate(R.menu.list, menu);
+        return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        closing = true;
+        super.onDestroy();
+    }
+
+    interface RefreshableFragment {
+        abstract void refresh();
+    }
+
+    public static class ReportsMapFragment extends SupportMapFragment implements RefreshableFragment {
+
+        private GoogleMap mMap;
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            super.onCreateView(inflater, container, savedInstanceState);
+            View view = inflater.inflate(R.layout.fragment_map, container, false);
+            setUpMapIfNeeded();
+            return view;
+        }
+
+        @Override
+        public void onDestroyView() {
+            super.onDestroyView();
+            if(!((ListActivity)getActivity()).closing) {
+                Fragment fragment = getFragmentManager().findFragmentById(R.id.map_fragment);
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.remove(fragment);
+                ft.commitAllowingStateLoss();
+                mMap = null;
+            }
+        }
+
+        @Override
+        public void onStart() {
+            setupData();
+            super.onStart();
+        }
+
+        @Override
+        public void refresh() {
+            setupData();
+        }
+
+        private void setupData(){
+            ListActivity la = (ListActivity)getActivity();
+            if(la.reportList != null && mMap != null) {
+                mMap.clear();
+                for(Report r : la.reportList){
+                    mMap.addMarker(new MarkerOptions()
+                        .position(r.getLocation())
+                        .title("Zgłoszenie nr: " + r.getId())
+                        .snippet(r.getDescription())
+                    );
+                }
+            }
+        }
+
+        @Override
+        public void onResume() {
+            setUpMapIfNeeded();
+            setupData();
+            super.onResume();
+        }
+
+        private void setUpMapIfNeeded() {
+            // Do a null check to confirm that we have not already instantiated the map.
+            if (mMap == null) {
+                // Try to obtain the map from the SupportMapFragment.
+                mMap = ((SupportMapFragment)getFragmentManager().findFragmentById(R.id.map_fragment))
+                        .getMap();
+                // Check if we were successful in obtaining the map.
+                if (mMap != null) {
+
+                    View loc = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map_fragment)).getView();
+                    View map = loc.findViewById(1);
+
+                    View mapParent = (View)map.getParent();
+                    View locationButton = mapParent.findViewById(2);
+
+                    RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
+                    rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+                    rlp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
+                    rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+                    rlp.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+                    rlp.setMargins(30, 0, 0, 30);
+
+                    //pokaż przycisk "moja lokalizacja"
+                    mMap.setMyLocationEnabled(true);
+                    setupData();
+
+                    mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                        @Override
+                        public void onInfoWindowClick(Marker marker) {
+                            String[] title = marker.getTitle().split(" ");
+                            ListActivity la = (ListActivity)getActivity();
+                            for(Report r : la.reportList){
+                                if(r.getId() == Integer.valueOf(title[2])){
+                                    Intent intent = new Intent(la, DetailsActivity.class);
+                                    intent.putExtra("report", r);
+                                    la.startActivity(intent);
+                                    break;
+                                }
+                            }
+                        }
+                    });
+
+                    mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+                        @Override
+                        public boolean onMyLocationButtonClick() {
+                            final Context context = getActivity();
+                            LocationManager lm;
+                            boolean gps_enabled = false, network_enabled = false;
+                            lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+                            try{
+                                gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                            }catch(Exception ex){}
+                            try{
+                                network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                            }catch(Exception ex){}
+
+                            if(!gps_enabled && !network_enabled){
+                                AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                                dialog.setMessage(context.getResources().getString(R.string.gps_network_not_enabled));
+                                dialog.setPositiveButton(context.getResources().getString(R.string.open_location_settings), new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                                        Intent myIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS );
+                                        context.startActivity(myIntent);
+                                        //get gps
+                                    }
+                                });
+                                dialog.setNegativeButton(context.getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                                        //
+                                    }
+                                });
+                                dialog.show();
+
+                            }
+                            return false;
+                        }
+                    });
+                }
+            }
+        }
+
+        @Override
+        public void onAttach(Activity activity) {
+            ListActivity la = (ListActivity)activity;
+            la.actualFragmentId = this.getId();
+            super.onAttach(activity);
+        }
+    }
+
+    public static class ReportsThumbsFragment extends Fragment implements RefreshableFragment {
+
+        private GridView gridView;
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View v = inflater.inflate(R.layout.fragment_thumbs, container, false);
+            gridView = (GridView)v.findViewById(R.id.gridView);
+            return v;
+        }
+
+        @Override
+        public void onStart() {
+            setupData();
+            super.onStart();
+        }
+
+        @Override
+        public void refresh() {
+            setupData();
+        }
+
+        private void setupData(){
+            ListActivity la = (ListActivity)getActivity();
+            if(la.reportList != null) {
+                ArrayAdapter adapter = new ListAdapter(this.getActivity(), R.layout.thumb_item, la.reportList);
+                gridView.setAdapter(adapter);
+            }
+        }
+
+        @Override
+        public void onAttach(Activity activity) {
+            ListActivity la = (ListActivity)activity;
+            la.actualFragmentId = this.getId();
+            super.onAttach(activity);
+        }
+    }
+
+    public static class ReportsListFragment extends Fragment implements RefreshableFragment {
+
+        private ListView listView;
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.fragment_list, container, false);
+            listView = (ListView)view.findViewById(R.id.listView);
+            return view;
+        }
+
+        @Override
+        public void onStart() {
+            setupData();
+            super.onStart();
+        }
+
+        @Override
+        public void refresh() {
+            setupData();
+        }
+
+        private void setupData(){
+            ListActivity la = (ListActivity)getActivity();
+            if(la.reportList != null) {
+                ArrayAdapter adapter = new ListAdapter(this.getActivity(), R.layout.list_item, la.reportList);
+                listView.setAdapter(adapter);
+            }
+        }
+
+        @Override
+        public void onAttach(Activity activity) {
+            ListActivity la = (ListActivity)activity;
+            la.actualFragmentId = this.getId();
+            super.onAttach(activity);
+        }
+    }
+}
+
+

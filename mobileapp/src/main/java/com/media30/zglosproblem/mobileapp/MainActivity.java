@@ -10,6 +10,12 @@ import android.view.*;
 
 public class MainActivity extends ActionBarActivity {
 
+    //localhost debug
+    //final public static String HOST = "http://192.168.1.11/zgloszenie/";
+
+    //host release
+    final public static String HOST = "http://zgloszenia.aktywnaczerwionka.pl/";
+
     //deklaracje stałych do przesyłania danych
     public final static String SHARED_PREFS = "PREFS_PRIVATE";
     public final static String IMAGE = "PREF_IMAGE";
@@ -80,5 +86,10 @@ public class MainActivity extends ActionBarActivity {
         startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(startMain);
+    }
+
+    public void listyClick(View view){
+        Intent intent = new Intent(this, ListActivity.class);
+        startActivity(intent);
     }
 }

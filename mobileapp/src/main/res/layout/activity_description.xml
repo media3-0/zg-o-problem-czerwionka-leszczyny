@@ -44,5 +44,6 @@
         android:background="@drawable/back"
         android:singleLine="false"
         android:padding="10dp"
-        android:gravity="left|top" />
+        android:gravity="left|top"
+        android:maxLength="1000" />
 </RelativeLayout>

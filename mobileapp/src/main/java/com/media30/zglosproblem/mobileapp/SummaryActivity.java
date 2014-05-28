@@ -114,14 +114,13 @@ public class SummaryActivity extends ActionBarActivity {
     }
 
     public void anulujClick(View view){
-        //czyszczenie danych
-        clearPrefs();
         //wraca do głównej aktywności czyszcząc wszystkie wprowadzone przez użytkownika dane!
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setMessage(this.getResources().getString(R.string.cancel_message));
         dialog.setPositiveButton(this.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                clearPrefs();
                 clearStackAndBackToMain();
             }
         });
@@ -152,7 +151,7 @@ public class SummaryActivity extends ActionBarActivity {
                 //nie ma takiego pliku (nie ma prawa wyrzucić)
             }
         }
-        client.post("http://192.168.1.11/zgloszenie/upload.php", rp, new TextHttpResponseHandler(){
+        client.post(MainActivity.HOST + "upload.php", rp, new TextHttpResponseHandler(){
 
             @Override
             public void onProgress(int bytesWritten, int totalSize) {
@@ -166,7 +165,7 @@ public class SummaryActivity extends ActionBarActivity {
             public void onSuccess(int statusCode, Header[] headers, String responseBody) {
                 Log.d("onSuccess", "Status code: " + statusCode + "\n" + responseBody);
                 //parsowanie wyniku
-                if(responseBody.indexOf("ok") > -1){
+                if(responseBody.contains("ok")){
                     //sukces
                     AlertDialog.Builder dialog = new AlertDialog.Builder(SummaryActivity.this);
                     dialog.setMessage(getResources().getString(R.string.send_success_message));

@@ -25,13 +25,17 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     // You must install or update the Google Repository through the SDK manager to use this dependency.
+    compile files('libs/android-async-http-1.4.4.jar')
     compile 'com.android.support:appcompat-v7:19.1.0'
     compile 'com.android.support:support-v4:19.+'
     compile 'com.google.android.gms:play-services:4.2.42'
-    compile files('libs/android-async-http-1.4.4.jar')
 }
