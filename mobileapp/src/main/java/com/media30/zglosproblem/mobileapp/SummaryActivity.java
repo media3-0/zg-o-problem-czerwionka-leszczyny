@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -21,6 +24,10 @@ import com.loopj.android.http.*;
 import org.apache.http.Header;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class SummaryActivity extends ActionBarActivity {
@@ -135,6 +142,55 @@ public class SummaryActivity extends ActionBarActivity {
 
     }
 
+    private File resizeImage(String filepath){
+        String imageFileName = "resized";
+        File storageDir = this.getApplicationContext().getExternalFilesDir(
+                Environment.DIRECTORY_PICTURES);
+        File file = null;
+        try {
+            file = File.createTempFile(
+                    imageFileName,  /* prefix */
+                    ".jpg",         /* suffix */
+                    storageDir      /* directory */
+            );
+            file.deleteOnExit();
+
+            Bitmap bitmap = BitmapFactory.decodeFile(filepath);
+
+            Double OWidth = Double.valueOf(bitmap.getWidth());
+            Double OHeight = Double.valueOf(bitmap.getHeight());
+            Double NWidth;
+            Double NHeight;
+            if(OWidth > OHeight){
+                if(OWidth > 1500) {
+                    NWidth = 1500.0;
+                    Double factor = OWidth / NWidth;
+                    NHeight = OHeight / factor;
+                }else{
+                    NWidth = OWidth;
+                    NHeight = OHeight;
+                }
+            }else{
+                if(OHeight > 1500) {
+                    NHeight = 1500.0;
+                    Double factor = OHeight / NHeight;
+                    NWidth = OWidth / factor;
+                }else{
+                    NWidth = OWidth;
+                    NHeight = OHeight;
+                }
+            }
+
+            Bitmap bm = Bitmap.createScaledBitmap(bitmap, NWidth.intValue(), NHeight.intValue(), true);
+            FileOutputStream ostream = new FileOutputStream(file);
+            bm.compress(Bitmap.CompressFormat.JPEG, 75, ostream);
+            ostream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
     public void sendReport(){
         //wysyłanie zgłoszenia
         showSending();
@@ -146,7 +202,7 @@ public class SummaryActivity extends ActionBarActivity {
         rp.put("pos_lng", String.valueOf(Double.longBitsToDouble(sp.getLong(MainActivity.POS_LNG,0)))); //odwrotnie Double.parseDouble
         if(!TextUtils.isEmpty(sp.getString(MainActivity.IMAGE, ""))){
             try {
-                rp.put("file", new File(sp.getString(MainActivity.IMAGE, "")));
+                rp.put("file", resizeImage(sp.getString(MainActivity.IMAGE, "")));
             } catch (FileNotFoundException e) {
                 //nie ma takiego pliku (nie ma prawa wyrzucić)
             }
