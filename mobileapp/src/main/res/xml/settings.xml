@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/pref_header_general" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="prefApproval"
+            android:summary="@string/approval_question_wide"
+            android:title="@string/approval_question" >
+        </CheckBoxPreference>
+
+        <EditTextPreference
+            android:title="@string/pref_name"
+            android:dependency="prefApproval"
+            android:selectAllOnFocus="true"
+            android:maxLength="256"
+            android:lines="1"
+            android:maxLines="1"
+            android:key="prefName"/>
+
+        <EditTextPreference
+            android:title="@string/pref_surname"
+            android:dependency="prefApproval"
+            android:selectAllOnFocus="true"
+            android:maxLength="256"
+            android:lines="1"
+            android:maxLines="1"
+            android:key="prefSurname"/>
+
+        <EditTextPreference
+            android:title="@string/pref_phone"
+            android:dependency="prefApproval"
+            android:inputType="number"
+            android:selectAllOnFocus="true"
+            android:maxLength="10"
+            android:lines="1"
+            android:maxLines="1"
+            android:key="prefPhone"/>
+
+        <EditTextPreference
+            android:title="@string/pref_email"
+            android:inputType="textEmailAddress"
+            android:dependency="prefApproval"
+            android:selectAllOnFocus="true"
+            android:maxLength="250"
+            android:lines="1"
+            android:maxLines="1"
+            android:key="prefEmail"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_others" >
+
+        <Preference android:title="@string/pref_about"
+            android:key="aboutButton"
+            android:summary="@string/pref_about_summary"/>
+
+        <Preference android:title="@string/pref_version"
+            android:key="verButton"
+            android:summary="ver"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

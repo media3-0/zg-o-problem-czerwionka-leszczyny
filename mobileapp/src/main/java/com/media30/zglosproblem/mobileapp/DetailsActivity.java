@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,8 +37,16 @@ public class DetailsActivity extends ActionBarActivity {
         }
         TextView tvTitle = (TextView)findViewById(R.id.tvReport);
         tvTitle.setText("Zgłoszenie nr: " + report.getId());
-        TextView tvCat = (TextView)findViewById(R.id.tvCat);
+        TextView tvCat = (TextView)findViewById(R.id.tvCategory);
         tvCat.setText(report.getCatString());
+
+        if(report.getSenderInfo() != null){
+            TextView tvInfoTitle = (TextView)findViewById(R.id.tvSendByLabel);
+            tvInfoTitle.setVisibility(View.VISIBLE);
+            TextView tvInfo = (TextView)findViewById(R.id.tvSendBy);
+            tvInfo.setVisibility(View.VISIBLE);
+            tvInfo.setText(report.getSenderInfo());
+        }
     }
 
 

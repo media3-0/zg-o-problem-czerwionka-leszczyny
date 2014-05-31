@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
@@ -22,8 +23,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TabHost;
 import android.widget.Toast;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.Marker;
@@ -42,6 +45,13 @@ public class ListActivity extends FragmentActivity {
     public boolean closing = false;
     public int actualFragmentId;
     public List<Report> reportList;
+    private FragmentTabHost mTabHost;
+    private int [][] resTab = new int [][] {
+            { R.drawable.telefon },
+            { R.drawable.lista, R.drawable.listaczerwona },
+            { R.drawable.pin, R.drawable.pinczerwony },
+            { R.drawable.galeria, R.drawable.galeriaczerwona }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +61,22 @@ public class ListActivity extends FragmentActivity {
 
         closing = false;
 
-        FragmentTabHost mTabHost = (FragmentTabHost) findViewById(R.id.tabHost);
+        mTabHost = (FragmentTabHost) findViewById(R.id.tabHost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.readTabContent);
 
-        mTabHost.addTab(mTabHost.newTabSpec("miniatury").setIndicator("Miniatury"),
-                ReportsThumbsFragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("mapa").setIndicator("Mapa"),
-                ReportsMapFragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("lista").setIndicator("Lista"),
-                ReportsListFragment.class, null);
+        // TODO : dummy fragment for first button!
+        addCustomTab(this, "0", getResources().getDrawable(resTab[0][0]), ReportsListFragment.class, mTabHost);
+        addCustomTab(this, "1", getResources().getDrawable(resTab[1][1]), ReportsListFragment.class, mTabHost);
+        addCustomTab(this, "2", getResources().getDrawable(resTab[2][0]), ReportsMapFragment.class, mTabHost);
+        addCustomTab(this, "3", getResources().getDrawable(resTab[3][0]), ReportsThumbsFragment.class, mTabHost);
+
+        //mTabHost.addTab(mTabHost.newTabSpec("lista").setIndicator("",getResources().getDrawable(R.drawable.lista)),
+        //        ReportsListFragment.class, null);
+        //mTabHost.addTab(mTabHost.newTabSpec("mapa").setIndicator("",getResources().getDrawable(R.drawable.pin)),
+        //        ReportsMapFragment.class, null);
+        //mTabHost.addTab(mTabHost.newTabSpec("miniatury").setIndicator("",getResources().getDrawable(R.drawable.galeria)),
+        //        ReportsThumbsFragment.class, null);
+
         AsyncHttpClient httpClient = new AsyncHttpClient();
         pd = ProgressDialog.show(this, "Proszę czekać", "Trwa pobieranie listy zgłoszeń", true, false);
         httpClient.get(MainActivity.HOST + "list.php", new JsonHttpResponseHandler(){
@@ -96,9 +113,49 @@ public class ListActivity extends FragmentActivity {
         });
     }
 
+    private void addCustomTab(Context context, final String labelId, Drawable drawable, Class<?> c, FragmentTabHost fth ) {
+        View view = LayoutInflater.from(context).inflate(R.layout.tab_customtab, null);
+        ImageButton image = (ImageButton) view.findViewById(R.id.ivTabImage);
+
+        image.setImageDrawable(drawable);
+
+        TabHost.TabSpec spec = fth.newTabSpec(labelId);
+        spec.setIndicator(view);
+        fth.addTab(spec, c, null);
+
+        fth.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String s) {
+                if(s.contains("0")){
+                    // TODO : dzwonienie
+                    Toast toast = Toast.makeText(ListActivity.this, "Brak funkcjonalności", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                for(int i=1;i<mTabHost.getTabWidget().getChildCount();i++)
+                {
+                    ImageButton ib = (ImageButton)mTabHost.getTabWidget().getChildAt(i);
+                    ImageButton ibc = (ImageButton)mTabHost.getCurrentTabView();
+                    if(ib != ibc){
+                        ib.setImageDrawable(getResources().getDrawable(resTab[i][0]));
+                    }else{
+                        ib.setImageDrawable(getResources().getDrawable(resTab[i][1]));
+                    }
+                }
+            }
+        });
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         return keyCode == KeyEvent.KEYCODE_MENU || super.onKeyDown(keyCode, event);
+    }
+
+    public void homeClick(View view){
+        this.finish();
+    }
+
+    public void startClick(View view){
+        MainActivity.startReport(this);
     }
 
     @Override

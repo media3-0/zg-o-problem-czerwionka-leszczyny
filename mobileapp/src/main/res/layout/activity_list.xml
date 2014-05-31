@@ -10,6 +10,39 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/imageButton1"
+            android:src="@drawable/domekok"
+            android:background="@null"
+            android:scaleType="fitStart"
+            android:adjustViewBounds="true"
+            android:onClick="homeClick"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/imageButton2"
+            android:src="@drawable/img4"
+            android:background="@null"
+            android:scaleType="fitEnd"
+            android:adjustViewBounds="true"
+            android:onClick="startClick"/>
+
+        </LinearLayout>
+
         <FrameLayout
             android:id="@+id/readTabContent"
             android:layout_width="match_parent"
@@ -22,12 +55,14 @@
             android:layout_height="0dp"
             android:layout_weight="0"/>
 
-
         <TabWidget
             android:id="@android:id/tabs"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
+            android:padding="0dp"
+            android:layout_margin="0dp"
+            android:showDividers="none"
             android:orientation="horizontal" />
+
     </LinearLayout >
 </android.support.v4.app.FragmentTabHost>

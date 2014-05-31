@@ -2,6 +2,7 @@ package com.media30.zglosproblem.mobileapp;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 import android.util.Log;
 import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONException;
@@ -15,6 +16,7 @@ public class Report implements Parcelable{
     private String catString;
     private int cat;
     private int subcat;
+    private String senderInfo;
 
     Report(JSONObject obj){
         try {
@@ -27,6 +29,21 @@ public class Report implements Parcelable{
             this.cat = obj.getInt("cat");
             this.subcat = obj.getInt("subcat");
             this.catString = obj.getString("catstring");
+            if(obj.getString("ident").contains("1")) {
+                StringBuilder text = new StringBuilder();
+                if (!TextUtils.isEmpty(obj.getString("imie")))
+                    text.append("Imię: ").append(obj.getString("imie")).append("\n");
+                if (!TextUtils.isEmpty(obj.getString("nazwisko")))
+                    text.append("Nazwisko: ").append(obj.getString("nazwisko")).append("\n");
+                if (!TextUtils.isEmpty(obj.getString("numer")))
+                    text.append("Numer: ").append(obj.getString("numer")).append("\n");
+                if (!TextUtils.isEmpty(obj.getString("email")))
+                    text.append("Email: ").append(obj.getString("email")).append("\n");
+                this.senderInfo = text.toString();
+            }else{
+                this.senderInfo = null;
+            }
+
         }catch (JSONException e){
             Log.e("JSONException", e.toString());
         }
@@ -42,6 +59,7 @@ public class Report implements Parcelable{
         this.cat = in.readInt();
         this.subcat = in.readInt();
         this.catString = in.readString();
+        this.senderInfo = in.readString();
     }
 
     public int getId() {
@@ -100,6 +118,14 @@ public class Report implements Parcelable{
         this.subcat = subcat;
     }
 
+    public String getSenderInfo() {
+        return senderInfo;
+    }
+
+    public void setSenderInfo(String senderInfo) {
+        this.senderInfo = senderInfo;
+    }
+
     public String getThumbUrl(){
         if(this.ext.contains("null")) return "";
         return MainActivity.HOST + "thumbs/" + this.id + "." + this.ext;
@@ -136,5 +162,6 @@ public class Report implements Parcelable{
         parcel.writeInt(this.cat);
         parcel.writeInt(this.subcat);
         parcel.writeString(this.catString);
+        parcel.writeString(this.senderInfo);
     }
 }

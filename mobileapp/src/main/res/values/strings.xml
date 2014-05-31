@@ -27,5 +27,6 @@
     <string name="title_activity_details">Detale</string>
     <string name="description_label">Opis:</string>
     <string name="position_label">Lokalizacja:</string>
+    <string name="no_approval_question">Czy na pewno chcesz wysłać zgłoszenie bez podawania danych osobowych?\nMożesz je dodać klikając przycisk "Nie".</string>
 
 </resources>

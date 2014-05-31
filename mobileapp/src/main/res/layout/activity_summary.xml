@@ -7,104 +7,107 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.media30.zglosproblem.mobileapp.SummaryActivity"
-    android:padding="0dp">
+    android:padding="0dp"
+    android:background="@drawable/foto1">
 
-    <Button
-        android:layout_width="wrap_content"
+    <ImageView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Anuluj"
-        android:id="@+id/button"
-        android:layout_alignParentBottom="true"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="32dp"
-        android:onClick="anulujClick" />
+        android:adjustViewBounds="true"
+        android:src="@drawable/img1" />
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Wyślij"
-        android:id="@+id/button2"
-        android:layout_alignTop="@+id/button"
+        android:id="@+id/imageButton"
+        android:layout_marginTop="24dp"
+        android:background="@null"
+        android:src="@drawable/img7"
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:onClick="wsteczClick" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton2"
+        android:layout_alignTop="@+id/imageButton"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:background="@null"
+        android:src="@drawable/img15"
         android:onClick="wyslijClick" />
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
+    <ImageButton
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/button"
-        android:layout_alignStart="@+id/button"
-        android:layout_marginTop="76dp"
-        android:weightSum="1"
-        android:id="@+id/linearLayout">
+        android:id="@+id/ibZdjecie"
+        android:src="@drawable/sprawdzdjecie"
+        android:background="@null"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="pictureClick"
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:adjustViewBounds="true" />
 
-        <CheckBox
-            android:layout_width="fill_parent"
-            android:layout_height="56dp"
-            android:text="Zdjęcie"
-            android:id="@+id/cbImage"
-            android:checked="false"
-            android:onClick="pictureClick"
-            android:clickable="true"
-            android:textSize="24dp"
-            android:textStyle="bold"
-            android:paddingStart="20dp" />
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ibMiejsce"
+        android:layout_below="@+id/ibZdjecie"
+        android:layout_alignLeft="@+id/ibZdjecie"
+        android:layout_alignStart="@+id/ibZdjecie"
+        android:background="@null"
+        android:src="@drawable/sprawdzmiejsce"
+        android:layout_marginTop="3dp"
+        android:onClick="locationClick"
+        android:scaleType="fitCenter"
+        android:layout_marginRight="10dp"
+        android:adjustViewBounds="true" />
 
-        <CheckBox
-            android:layout_width="fill_parent"
-            android:layout_height="56dp"
-            android:text="Lokacja"
-            android:id="@+id/cbLocation"
-            android:layout_weight="0.08"
-            android:checked="false"
-            android:onClick="locationClick"
-            android:clickable="true"
-            android:textSize="24dp"
-            android:textStyle="bold"
-            android:paddingStart="20dp" />
-
-        <CheckBox
-            android:layout_width="fill_parent"
-            android:layout_height="56dp"
-            android:text="Opis"
-            android:id="@+id/cbDescription"
-            android:layout_weight="0.08"
-            android:checked="false"
-            android:onClick="descriptionClick"
-            android:clickable="true"
-            android:textSize="24dp"
-            android:textStyle="bold"
-            android:paddingStart="20dp" />
-    </LinearLayout>
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ibOpis"
+        android:background="@null"
+        android:src="@drawable/sprawdzopis"
+        android:layout_below="@+id/ibMiejsce"
+        android:layout_alignLeft="@+id/ibMiejsce"
+        android:layout_alignStart="@+id/ibMiejsce"
+        android:layout_marginTop="3dp"
+        android:onClick="descriptionClick"
+        android:scaleType="fitCenter"
+        android:layout_marginRight="10dp"
+        android:adjustViewBounds="true" />
 
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
-        android:layout_below="@+id/linearLayout"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="72dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/ibOpis"
+        android:layout_alignStart="@+id/ibOpis"
+        android:layout_marginBottom="28dp"
+        android:layout_alignRight="@+id/ibOpis"
+        android:layout_alignEnd="@+id/ibOpis"
         android:visibility="invisible" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/sending"
+        android:text="Trwa wysyłanie..."
         android:id="@+id/tvSending"
-        android:layout_alignBottom="@+id/progressBar"
+        android:layout_above="@+id/progressBar"
         android:layout_alignLeft="@+id/progressBar"
         android:layout_alignStart="@+id/progressBar"
-        android:layout_marginBottom="22dp"
+        android:textColor="#ffffffff"
         android:visibility="invisible" />
-
 </RelativeLayout>

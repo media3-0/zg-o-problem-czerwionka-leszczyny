@@ -58,7 +58,21 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvCat" />
+                android:id="@+id/tvCategory" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Wysłane przez:"
+                android:id="@+id/tvSendByLabel"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvSendBy"
+                android:visibility="gone" />
 
             <ImageView
                 android:layout_width="match_parent"

@@ -18,24 +18,27 @@
         map:cameraZoom="13"
         tools:ignore="MissingPrefix" />
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Wstecz"
-        android:id="@+id/button"
+        android:id="@+id/imageButton"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/img7"
+        android:background="@null"
         android:onClick="wsteczClick" />
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dalej"
-        android:id="@+id/button2"
-        android:layout_alignTop="@+id/button"
+        android:id="@+id/imageButton2"
+        android:layout_alignTop="@+id/imageButton"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:src="@drawable/img16"
+        android:background="@null"
         android:onClick="dalejClick" />
+
 </RelativeLayout>
