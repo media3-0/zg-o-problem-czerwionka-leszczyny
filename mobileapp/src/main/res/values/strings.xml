@@ -25,9 +25,7 @@
     <string name="sending">Trwa wysyłanie</string>
     <string name="title_activity_list">ListActivity</string>
     <string name="title_activity_details">Detale</string>
-    <string name="hello_world">Hello world!</string>
     <string name="description_label">Opis:</string>
     <string name="position_label">Lokalizacja:</string>
-    <string name="report">Zgłoszenie:</string>
 
 </resources>

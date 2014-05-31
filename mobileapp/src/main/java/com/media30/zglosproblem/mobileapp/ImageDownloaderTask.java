@@ -14,10 +14,12 @@ import android.util.Log;
 import android.widget.ImageView;
 
 class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
-    private final WeakReference imageViewReference;
+    //private final WeakReference imageViewReference;
+    private final ImageView imageViewReference;
 
     public ImageDownloaderTask(ImageView imageView) {
-        imageViewReference = new WeakReference(imageView);
+        //imageViewReference = new WeakReference(imageView);
+        imageViewReference = imageView;
     }
 
     @Override
@@ -35,7 +37,8 @@ class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
         }
 
         if (imageViewReference != null) {
-            ImageView imageView = (ImageView)imageViewReference.get();
+            //ImageView imageView = (ImageView)imageViewReference.get();
+            ImageView imageView = imageViewReference;
             if (imageView != null) {
 
                 if (bitmap != null) {

@@ -22,6 +22,9 @@ public class MainActivity extends ActionBarActivity {
     public final static String POS_LAT = "PREF_POSITION_LAT";
     public final static String POS_LNG = "PREF_POSITION_LNG";
     public final static String DESCRIPTION = "PREF_DESCRIPTION";
+    public final static String CAT_STRING = "CAT_STRING";
+    public final static String CAT = "CAT";
+    public final static String SUBCAT = "SUBCAT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,9 @@ public class MainActivity extends ActionBarActivity {
         editor.putLong(MainActivity.POS_LAT, 0);
         editor.putLong(MainActivity.POS_LNG, 0);
         editor.putString(MainActivity.DESCRIPTION, "");
+        editor.putString(MainActivity.CAT_STRING, "");
+        editor.putInt(MainActivity.CAT, -1);
+        editor.putInt(MainActivity.SUBCAT, -1);
         editor.commit();
         //startowanie kreatora
         Intent intent = new Intent(this, ImageActivity.class);

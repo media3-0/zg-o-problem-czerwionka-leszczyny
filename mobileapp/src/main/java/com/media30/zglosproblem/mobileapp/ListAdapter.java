@@ -27,12 +27,15 @@ public class ListAdapter extends ArrayAdapter<Report> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
+        /*View v = convertView;
         if(v == null){
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
             v = vi.inflate(layoutRes, null);
-        }
+        }*/
+        LayoutInflater inflater = (LayoutInflater) getContext()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflater.inflate(layoutRes, parent, false);
         final Report report = getItem(position);
         if(report != null){
             ImageView iv = (ImageView)v.findViewById(R.id.listItemImageView);
@@ -40,11 +43,13 @@ public class ListAdapter extends ArrayAdapter<Report> {
 
             if(tv != null)
                 tv.setText(report.getDescription());
-            String thumbUrl = report.getThumbUrl();
-            if(!TextUtils.isEmpty(thumbUrl)){
-                new ImageDownloaderTask(iv).execute(thumbUrl);
-            }else{
-                iv.setImageDrawable(getContext().getResources().getDrawable(R.drawable.no_image));
+            if(iv != null) {
+                String thumbUrl = report.getThumbUrl();
+                if (!TextUtils.isEmpty(thumbUrl)) {
+                    new ImageDownloaderTask(iv).execute(thumbUrl);
+                } else {
+                    iv.setImageDrawable(getContext().getResources().getDrawable(R.drawable.no_image));
+                }
             }
         }
         v.setOnClickListener(new View.OnClickListener() {

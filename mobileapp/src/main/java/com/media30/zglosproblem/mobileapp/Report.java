@@ -12,6 +12,9 @@ public class Report implements Parcelable{
     private String description;
     private LatLng location;
     private String ext;
+    private String catString;
+    private int cat;
+    private int subcat;
 
     Report(JSONObject obj){
         try {
@@ -21,6 +24,9 @@ public class Report implements Parcelable{
             double lng = obj.getDouble("lng");
             this.location = new LatLng(lat, lng);
             this.ext = obj.getString("ext");
+            this.cat = obj.getInt("cat");
+            this.subcat = obj.getInt("subcat");
+            this.catString = obj.getString("catstring");
         }catch (JSONException e){
             Log.e("JSONException", e.toString());
         }
@@ -33,6 +39,9 @@ public class Report implements Parcelable{
         Double lat = in.readDouble();
         Double lng = in.readDouble();
         this.location = new LatLng(lat, lng);
+        this.cat = in.readInt();
+        this.subcat = in.readInt();
+        this.catString = in.readString();
     }
 
     public int getId() {
@@ -65,6 +74,30 @@ public class Report implements Parcelable{
 
     public void setExt(String ext) {
         this.ext = ext;
+    }
+
+    public String getCatString() {
+        return catString;
+    }
+
+    public void setCatString(String catString) {
+        this.catString = catString;
+    }
+
+    public int getCat() {
+        return cat;
+    }
+
+    public void setCat(int cat) {
+        this.cat = cat;
+    }
+
+    public int getSubcat() {
+        return subcat;
+    }
+
+    public void setSubcat(int subcat) {
+        this.subcat = subcat;
     }
 
     public String getThumbUrl(){
@@ -100,5 +133,8 @@ public class Report implements Parcelable{
         parcel.writeString(this.ext);
         parcel.writeDouble(this.location.latitude);
         parcel.writeDouble(this.location.longitude);
+        parcel.writeInt(this.cat);
+        parcel.writeInt(this.subcat);
+        parcel.writeString(this.catString);
     }
 }

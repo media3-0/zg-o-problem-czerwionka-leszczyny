@@ -81,7 +81,7 @@ public class SummaryActivity extends ActionBarActivity {
         }
 
         cb = (CheckBox)findViewById(R.id.cbDescription);
-        if(TextUtils.isEmpty(sp.getString(MainActivity.DESCRIPTION, ""))){
+        if(TextUtils.isEmpty(sp.getString(MainActivity.DESCRIPTION, "")) || TextUtils.isEmpty(sp.getString(MainActivity.CAT_STRING, ""))){
             cb.setChecked(false);
             description = false;
         }else{
@@ -107,6 +107,9 @@ public class SummaryActivity extends ActionBarActivity {
         editor.putLong(MainActivity.POS_LAT, 0);
         editor.putLong(MainActivity.POS_LNG, 0);
         editor.putString(MainActivity.DESCRIPTION, "");
+        editor.putString(MainActivity.CAT_STRING, "");
+        editor.putInt(MainActivity.CAT, -1);
+        editor.putInt(MainActivity.SUBCAT, -1);
         editor.commit();
     }
 
@@ -157,13 +160,15 @@ public class SummaryActivity extends ActionBarActivity {
 
             Bitmap bitmap = BitmapFactory.decodeFile(filepath);
 
+            final Double maxSize = 1500.0;
+
             Double OWidth = Double.valueOf(bitmap.getWidth());
             Double OHeight = Double.valueOf(bitmap.getHeight());
             Double NWidth;
             Double NHeight;
             if(OWidth > OHeight){
-                if(OWidth > 1500) {
-                    NWidth = 1500.0;
+                if(OWidth > maxSize) {
+                    NWidth = maxSize;
                     Double factor = OWidth / NWidth;
                     NHeight = OHeight / factor;
                 }else{
@@ -171,8 +176,8 @@ public class SummaryActivity extends ActionBarActivity {
                     NHeight = OHeight;
                 }
             }else{
-                if(OHeight > 1500) {
-                    NHeight = 1500.0;
+                if(OHeight > maxSize) {
+                    NHeight = maxSize;
                     Double factor = OHeight / NHeight;
                     NWidth = OWidth / factor;
                 }else{
@@ -199,7 +204,10 @@ public class SummaryActivity extends ActionBarActivity {
         RequestParams rp = new RequestParams();
         rp.put("description", sp.getString(MainActivity.DESCRIPTION, ""));
         rp.put("pos_lat", String.valueOf(Double.longBitsToDouble(sp.getLong(MainActivity.POS_LAT,0))));
-        rp.put("pos_lng", String.valueOf(Double.longBitsToDouble(sp.getLong(MainActivity.POS_LNG,0)))); //odwrotnie Double.parseDouble
+        rp.put("pos_lng", String.valueOf(Double.longBitsToDouble(sp.getLong(MainActivity.POS_LNG,0))));
+        rp.put("cat", String.valueOf(sp.getInt(MainActivity.CAT, 1000)));
+        rp.put("subcat", String.valueOf(sp.getInt(MainActivity.SUBCAT, 1000)));
+        rp.put("catstring", sp.getString(MainActivity.CAT_STRING, ""));
         if(!TextUtils.isEmpty(sp.getString(MainActivity.IMAGE, ""))){
             try {
                 rp.put("file", resizeImage(sp.getString(MainActivity.IMAGE, "")));

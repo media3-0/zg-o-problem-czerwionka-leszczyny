@@ -9,11 +9,6 @@
     tools:context="com.media30.zglosproblem.mobileapp.SummaryActivity"
     android:padding="0dp">
 
-    TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

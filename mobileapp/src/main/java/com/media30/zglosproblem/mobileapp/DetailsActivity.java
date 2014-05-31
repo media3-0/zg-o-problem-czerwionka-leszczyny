@@ -24,13 +24,20 @@ public class DetailsActivity extends ActionBarActivity {
         TextView tvDesc = (TextView)findViewById(R.id.tvDesc);
         tvDesc.setText(report.getDescription());
         TextView tvPos = (TextView)findViewById(R.id.tvPos);
-        tvPos.setText(report.getLocation().toString());
+        StringBuilder text = new StringBuilder();
+        text.append("Lat: ").append(report.getLocation().latitude);
+        text.append("\nLng: ").append(report.getLocation().longitude);
+        tvPos.setText(text.toString());
         //obrazek
         ImageView iv = (ImageView)findViewById(R.id.ivImage);
         String imgUrl = report.getImageUrl();
         if(!TextUtils.isEmpty(imgUrl)){
             new ImageDownloaderTask(iv).execute(imgUrl);
         }
+        TextView tvTitle = (TextView)findViewById(R.id.tvReport);
+        tvTitle.setText("Zgłoszenie nr: " + report.getId());
+        TextView tvCat = (TextView)findViewById(R.id.tvCat);
+        tvCat.setText(report.getCatString());
     }
 
 
