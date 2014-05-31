@@ -29,35 +29,20 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return keyCode == KeyEvent.KEYCODE_MENU || super.onKeyDown(keyCode, event);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        //getMenuInflater().inflate(R.menu.main, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            //przycisk "Ustawienia"
-            pokazUstawienia();
-            return true;
-        }
-        if(id == R.id.action_exit){
-            //wyjście z aplikacji (wyrzucenie całości z pamięci telefonu)
-            //System.exit(0);
-            quit();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void pokazUstawienia(){
@@ -84,14 +69,6 @@ public class MainActivity extends ActionBarActivity {
         //startowanie kreatora
         Intent intent = new Intent(this, ImageActivity.class);
         startActivity(intent);
-    }
-
-    public void quit() {
-        Intent startMain = new Intent(Intent.ACTION_MAIN);
-        startMain.addCategory(Intent.CATEGORY_HOME);
-        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(startMain);
     }
 
     public void listyClick(View view){
