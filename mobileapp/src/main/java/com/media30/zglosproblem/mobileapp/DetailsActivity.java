@@ -1,6 +1,6 @@
 package com.media30.zglosproblem.mobileapp;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -12,14 +12,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
-public class DetailsActivity extends ActionBarActivity {
+public class DetailsActivity extends Activity {
 
     Report report;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_details);
         report = getIntent().getExtras().getParcelable("report");
         if(report == null) this.finish();

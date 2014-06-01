@@ -1,9 +1,9 @@
 package com.media30.zglosproblem.mobileapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -18,7 +18,7 @@ import android.support.v7.widget.PopupMenu;
 import android.widget.TextView;
 
 
-public class DescriptionActivity extends ActionBarActivity {
+public class DescriptionActivity extends Activity {
 
     private EditText et;
     private SharedPreferences sp;
@@ -28,7 +28,7 @@ public class DescriptionActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sp = getSharedPreferences(MainActivity.SHARED_PREFS, Context.MODE_PRIVATE);
-        this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_description);
         et = (EditText)findViewById(R.id.editText);
         tvCat = (TextView)findViewById(R.id.tvCat);
