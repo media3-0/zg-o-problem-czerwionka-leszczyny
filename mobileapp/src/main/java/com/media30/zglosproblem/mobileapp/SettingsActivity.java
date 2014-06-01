@@ -1,5 +1,7 @@
 package com.media30.zglosproblem.mobileapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -27,9 +29,15 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
         aboutButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Toast toast = Toast.makeText(SettingsActivity.this, "Brak funcjonalności", Toast.LENGTH_LONG);
-                toast.show();
-                // TODO : O aplikacji
+                AlertDialog.Builder dialog = new AlertDialog.Builder(SettingsActivity.this);
+                dialog.setMessage(getResources().getString(R.string.about_application));
+                dialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                       //
+                    }
+                });
+                dialog.show();
                 return true;
             }
         });

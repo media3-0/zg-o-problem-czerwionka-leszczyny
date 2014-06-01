@@ -11,15 +11,19 @@ import android.graphics.BitmapFactory;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
     //private final WeakReference imageViewReference;
     private final ImageView imageViewReference;
+    private final ProgressBar progressBarReference;
 
-    public ImageDownloaderTask(ImageView imageView) {
+    public ImageDownloaderTask(ImageView imageView, ProgressBar progressBar) {
         //imageViewReference = new WeakReference(imageView);
         imageViewReference = imageView;
+        progressBarReference = progressBar;
     }
 
     @Override
@@ -38,14 +42,13 @@ class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 
         if (imageViewReference != null) {
             //ImageView imageView = (ImageView)imageViewReference.get();
-            ImageView imageView = imageViewReference;
-            if (imageView != null) {
 
-                if (bitmap != null) {
-                    imageView.setImageBitmap(bitmap);
+            if (bitmap != null) {
+                imageViewReference.setImageBitmap(bitmap);
+                if(progressBarReference != null){
+                    progressBarReference.setVisibility(View.GONE);
                 }
             }
-
         }
     }
 
@@ -66,8 +69,7 @@ class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
                 InputStream inputStream = null;
                 try {
                     inputStream = entity.getContent();
-                    final Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                    return bitmap;
+                    return BitmapFactory.decodeStream(inputStream);
                 } finally {
                     if (inputStream != null) {
                         inputStream.close();
@@ -81,9 +83,7 @@ class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
             getRequest.abort();
             Log.w("ImageDownloader", "Error while retrieving bitmap from " + url);
         } finally {
-            if (client != null) {
-                client.close();
-            }
+            client.close();
         }
         return null;
     }

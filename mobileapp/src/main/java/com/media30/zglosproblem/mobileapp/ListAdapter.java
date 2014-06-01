@@ -46,7 +46,7 @@ public class ListAdapter extends ArrayAdapter<Report> {
             if(iv != null) {
                 String thumbUrl = report.getThumbUrl();
                 if (!TextUtils.isEmpty(thumbUrl)) {
-                    new ImageDownloaderTask(iv).execute(thumbUrl);
+                    new ImageDownloaderTask(iv, null).execute(thumbUrl);
                 } else {
                     iv.setImageDrawable(getContext().getResources().getDrawable(R.drawable.no_image));
                 }

@@ -27,6 +27,15 @@
     <string name="title_activity_details">Detale</string>
     <string name="description_label">Opis:</string>
     <string name="position_label">Lokalizacja:</string>
-    <string name="no_approval_question">Czy na pewno chcesz wysłać zgłoszenie bez podawania danych osobowych?\nMożesz je dodać klikając przycisk "Nie".</string>
+    <string name="no_approval_question">Czy na pewno chcesz wysłać zgłoszenie bez podawania danych osobowych?\n
+        Możesz je dodać klikając przycisk "Nie".</string>
+
+    <string name="about_application">Aplikacja Zgłoś Problem została wykonana dla Gminy Czerwionka-Leszczyny przez Fundacja Media 3.0\n\n
+    Wtyczki użyte na licencji GNU/GPL:\n
+    - v7 appcompat library\n
+    - v4 Support Library\n
+    - Google Play Services\n
+    - Android Asynchronous Http Client
+    </string>
 
 </resources>

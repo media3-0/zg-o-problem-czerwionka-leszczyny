@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
@@ -33,7 +34,9 @@ public class DetailsActivity extends ActionBarActivity {
         ImageView iv = (ImageView)findViewById(R.id.ivImage);
         String imgUrl = report.getImageUrl();
         if(!TextUtils.isEmpty(imgUrl)){
-            new ImageDownloaderTask(iv).execute(imgUrl);
+            ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.VISIBLE);
+            new ImageDownloaderTask(iv, progressBar).execute(imgUrl);
         }
         TextView tvTitle = (TextView)findViewById(R.id.tvReport);
         tvTitle.setText("Zgłoszenie nr: " + report.getId());

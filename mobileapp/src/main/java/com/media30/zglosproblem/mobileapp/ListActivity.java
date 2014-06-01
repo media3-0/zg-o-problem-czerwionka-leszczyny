@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -24,6 +25,7 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
@@ -44,8 +46,13 @@ public class ListActivity extends FragmentActivity {
     private ProgressDialog pd;
     public boolean closing = false;
     public int actualFragmentId;
+    public int actualTab = 1;
     public List<Report> reportList;
-    private FragmentTabHost mTabHost;
+    public FragmentTabHost mTabHost;
+
+    // TODO : numer straży miejskiej
+    final private String numer = "721043077";
+
     private int [][] resTab = new int [][] {
             { R.drawable.telefon },
             { R.drawable.lista, R.drawable.listaczerwona },
@@ -64,11 +71,12 @@ public class ListActivity extends FragmentActivity {
         mTabHost = (FragmentTabHost) findViewById(R.id.tabHost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.readTabContent);
 
-        // TODO : dummy fragment for first button!
-        addCustomTab(this, "0", getResources().getDrawable(resTab[0][0]), ReportsListFragment.class, mTabHost);
+        addCustomTab(this, "0", getResources().getDrawable(resTab[0][0]), DummyFragment.class, mTabHost);
         addCustomTab(this, "1", getResources().getDrawable(resTab[1][1]), ReportsListFragment.class, mTabHost);
         addCustomTab(this, "2", getResources().getDrawable(resTab[2][0]), ReportsMapFragment.class, mTabHost);
         addCustomTab(this, "3", getResources().getDrawable(resTab[3][0]), ReportsThumbsFragment.class, mTabHost);
+
+        mTabHost.setCurrentTab(actualTab);
 
         //mTabHost.addTab(mTabHost.newTabSpec("lista").setIndicator("",getResources().getDrawable(R.drawable.lista)),
         //        ReportsListFragment.class, null);
@@ -115,7 +123,7 @@ public class ListActivity extends FragmentActivity {
 
     private void addCustomTab(Context context, final String labelId, Drawable drawable, Class<?> c, FragmentTabHost fth ) {
         View view = LayoutInflater.from(context).inflate(R.layout.tab_customtab, null);
-        ImageButton image = (ImageButton) view.findViewById(R.id.ivTabImage);
+        ImageView image = (ImageView) view.findViewById(R.id.ivTabImage);
 
         image.setImageDrawable(drawable);
 
@@ -127,20 +135,22 @@ public class ListActivity extends FragmentActivity {
             @Override
             public void onTabChanged(String s) {
                 if(s.contains("0")){
-                    // TODO : dzwonienie
-                    Toast toast = Toast.makeText(ListActivity.this, "Brak funkcjonalności", Toast.LENGTH_LONG);
-                    toast.show();
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:" + numer));
+                    startActivity(intent);
+                    return;
                 }
                 for(int i=1;i<mTabHost.getTabWidget().getChildCount();i++)
                 {
-                    ImageButton ib = (ImageButton)mTabHost.getTabWidget().getChildAt(i);
-                    ImageButton ibc = (ImageButton)mTabHost.getCurrentTabView();
+                    ImageView ib = (ImageView)mTabHost.getTabWidget().getChildAt(i);
+                    ImageView ibc = (ImageView)mTabHost.getCurrentTabView();
                     if(ib != ibc){
                         ib.setImageDrawable(getResources().getDrawable(resTab[i][0]));
                     }else{
                         ib.setImageDrawable(getResources().getDrawable(resTab[i][1]));
                     }
                 }
+                actualTab = mTabHost.getCurrentTab();
             }
         });
     }
@@ -390,6 +400,35 @@ public class ListActivity extends FragmentActivity {
                 listView.setAdapter(adapter);
             }
         }
+
+        @Override
+        public void onAttach(Activity activity) {
+            ListActivity la = (ListActivity)activity;
+            la.actualFragmentId = this.getId();
+            super.onAttach(activity);
+        }
+    }
+
+    public static class DummyFragment extends Fragment implements RefreshableFragment {
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.dummy_layout, container, false);
+            return view;
+        }
+
+        @Override
+        public void onStart() {
+            ListActivity la = (ListActivity)getActivity();
+            la.mTabHost.setCurrentTab(la.actualTab);
+            super.onStart();
+        }
+
+        @Override
+        public void refresh() {
+
+        }
+
 
         @Override
         public void onAttach(Activity activity) {
