@@ -50,8 +50,7 @@ public class ListActivity extends FragmentActivity {
     public List<Report> reportList;
     public FragmentTabHost mTabHost;
 
-    // TODO : numer straży miejskiej
-    final private String numer = "721043077";
+    final private String numer = "324311928";
 
     private int [][] resTab = new int [][] {
             { R.drawable.telefon },
