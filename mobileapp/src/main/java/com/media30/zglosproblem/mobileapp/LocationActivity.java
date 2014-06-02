@@ -6,20 +6,21 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class LocationActivity extends FragmentActivity {
 
@@ -47,7 +48,7 @@ public class LocationActivity extends FragmentActivity {
         if(sp.getLong(MainActivity.POS_LAT, 0) != 0) {
             LatLng ll = new LatLng(Double.longBitsToDouble(sp.getLong(MainActivity.POS_LAT, 0)), Double.longBitsToDouble(sp.getLong(MainActivity.POS_LNG, 0)));
             setMapPosition(ll);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 13));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 15));
         }
     }
 
@@ -82,7 +83,7 @@ public class LocationActivity extends FragmentActivity {
                 setUpMap();
 
                 View loc = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getView();
-                View map = loc.findViewById(1);
+                final View map = loc.findViewById(1);
 
                 View mapParent = (View)map.getParent();
                 View locationButton = mapParent.findViewById(2);
@@ -141,8 +142,10 @@ public class LocationActivity extends FragmentActivity {
                         }
                     });
                     dialog.show();
-
+                    return true;
                 }
+                Toast toast = Toast.makeText(LocationActivity.this, "Trwa lokalizowanie", Toast.LENGTH_LONG);
+                toast.show();
                 return false;
             }
         });
