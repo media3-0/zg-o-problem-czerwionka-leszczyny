@@ -53,6 +53,10 @@ public class ImageActivity extends Activity {
         return keyCode == KeyEvent.KEYCODE_MENU || super.onKeyDown(keyCode, event);
     }
 
+    public void homeClick(View view){
+        SummaryActivity.cancelWizard(this);
+    }
+
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());

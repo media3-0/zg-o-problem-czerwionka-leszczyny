@@ -113,28 +113,27 @@ public class SummaryActivity extends Activity {
         editor.commit();
     }
 
-    private void clearStackAndBackToMain(){
-        Intent intent = new Intent(SummaryActivity.this, MainActivity.class);
+    static void clearStackAndBackToMain(Context to){
+        Intent intent = new Intent(to, MainActivity.class);
         if(Build.VERSION.SDK_INT > 10) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         }else {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         }
-        startActivity(intent);
+        to.startActivity(intent);
     }
 
-    public void anulujClick(View view){
+    static void cancelWizard(final Context to){
         //wraca do głównej aktywności czyszcząc wszystkie wprowadzone przez użytkownika dane!
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setMessage(this.getResources().getString(R.string.cancel_message));
-        dialog.setPositiveButton(this.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(to);
+        dialog.setMessage(to.getResources().getString(R.string.cancel_message));
+        dialog.setPositiveButton(to.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                clearPrefs();
-                clearStackAndBackToMain();
+                clearStackAndBackToMain(to);
             }
         });
-        dialog.setNegativeButton(this.getString(R.string.no), new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton(to.getString(R.string.no), new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface paramDialogInterface, int paramInt) {
@@ -142,7 +141,10 @@ public class SummaryActivity extends Activity {
             }
         });
         dialog.show();
+    }
 
+    public void homeClick(View view){
+        SummaryActivity.cancelWizard(this);
     }
 
     public void wsteczClick(View view){
@@ -185,8 +187,7 @@ public class SummaryActivity extends Activity {
 
     private File resizeImage(String filepath){
         String imageFileName = "resized";
-        File storageDir = this.getApplicationContext().getExternalFilesDir(
-                Environment.DIRECTORY_PICTURES);
+        File storageDir = this.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File file = null;
         try {
             file = File.createTempFile(
@@ -285,7 +286,7 @@ public class SummaryActivity extends Activity {
                         public void onClick(DialogInterface paramDialogInterface, int paramInt) {
                             //wyjdź do ekranu głównego
                             clearPrefs();
-                            clearStackAndBackToMain();
+                            clearStackAndBackToMain(SummaryActivity.this);
                         }
                     });
                     dialog.show();
@@ -305,7 +306,7 @@ public class SummaryActivity extends Activity {
 
             @Override
             public void onFailure(String responseBody, Throwable error) {
-                Log.e("onFailure", responseBody);
+                //Log.e("onFailure", responseBody);
                 AlertDialog.Builder dialog = new AlertDialog.Builder(SummaryActivity.this);
                 dialog.setMessage("Błąd podczas wysyłania na serwer. Odpowiedź:\n" + responseBody);
                 dialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {

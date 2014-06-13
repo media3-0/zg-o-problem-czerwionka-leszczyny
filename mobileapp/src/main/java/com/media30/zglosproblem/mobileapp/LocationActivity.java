@@ -175,6 +175,10 @@ public class LocationActivity extends FragmentActivity {
         this.finish();
     }
 
+    public void homeClick(View view){
+        SummaryActivity.cancelWizard(this);
+    }
+
     public void dalejClick(View view){
         //przycisk dalej
         Intent intent = new Intent(this, DescriptionActivity.class);

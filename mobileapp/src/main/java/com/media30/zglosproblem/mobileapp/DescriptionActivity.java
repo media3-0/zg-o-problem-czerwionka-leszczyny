@@ -81,6 +81,10 @@ public class DescriptionActivity extends Activity {
         startActivity(intent);
     }
 
+    public void homeClick(View view){
+        SummaryActivity.cancelWizard(this);
+    }
+
     public void pickCategory(View view){
         //wybór kategorii
         PopupMenu popupMenu = new PopupMenu(this, view);

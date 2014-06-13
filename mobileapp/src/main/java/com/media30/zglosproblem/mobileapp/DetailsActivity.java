@@ -36,7 +36,7 @@ public class DetailsActivity extends Activity {
         if(!TextUtils.isEmpty(imgUrl)){
             ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar);
             progressBar.setVisibility(View.VISIBLE);
-            new ImageDownloaderTask(iv, progressBar).execute(imgUrl);
+            new ImageDownloaderTask(iv, report, getApplicationContext(), progressBar).execute(imgUrl);
         }
         TextView tvTitle = (TextView)findViewById(R.id.tvReport);
         tvTitle.setText("Zgłoszenie nr: " + report.getId());

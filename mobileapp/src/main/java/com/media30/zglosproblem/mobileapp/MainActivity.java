@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.view.*;
@@ -15,7 +16,7 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 
     //localhost debug
-    //final public static String HOST = "http://192.168.1.11/zgloszenie/";
+//    final public static String HOST = "http://192.168.1.11/zgloszenie/";
 
     //host release
     final public static String HOST = "http://zgloszenia.aktywnaczerwionka.pl/";
@@ -104,9 +105,19 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
-    public void infoClick(View view){
+    public void homeClick(View view){
+        Intent i = new Intent(MainActivity.this, WelcomeActivity.class);
+        if(Build.VERSION.SDK_INT > 10) {
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        }else {
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }
+        startActivity(i);
+    }
+
+    public void telClick(View view){
         Toast toast = Toast.makeText(this, "Brak funkcjonalności", Toast.LENGTH_LONG);
         toast.show();
-        // TODO : Informacje i notyfikacje
+        // TODO : telefony
     }
 }

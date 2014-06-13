@@ -21,24 +21,46 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="24dp"
+        android:id="@+id/imageButton4"
+        android:layout_marginTop="25dp"
         android:src="@drawable/img7"
         android:background="@null"
-        android:onClick="wsteczClick" />
+        android:onClick="wsteczClick"
+        android:layout_below="@+id/imageButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageButton2"
-        android:layout_alignTop="@+id/imageButton"
+        android:layout_alignTop="@+id/imageButton4"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:src="@drawable/img16"
         android:background="@null"
         android:onClick="dalejClick" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:background="@null"
+        android:adjustViewBounds="false"
+        android:src="@drawable/domekczerwony"
+        android:scaleType="fitStart"
+        android:onClick="homeClick"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/logo_min"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

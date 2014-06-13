@@ -17,27 +17,27 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton"
-        android:layout_marginTop="24dp"
+        android:id="@+id/imageButton4"
         android:src="@drawable/img7"
         android:adjustViewBounds="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:background="@null"
-        android:onClick="wsteczClick" />
+        android:onClick="wsteczClick"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/imageButton5"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageButton2"
-        android:layout_alignTop="@+id/imageButton"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:src="@drawable/img16"
         android:adjustViewBounds="true"
         android:background="@null"
-        android:onClick="dalejClick" />
+        android:onClick="dalejClick"
+        android:layout_alignTop="@+id/imageButton4"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -45,21 +45,44 @@
         android:id="@+id/imageButton3"
         android:src="@drawable/img11"
         android:background="@null"
-        android:layout_above="@+id/imageButton4"
+        android:onClick="pickPicture"
+        android:layout_marginBottom="114dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="pickPicture" />
+        android:layout_alignParentStart="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton4"
-        android:layout_marginBottom="28dp"
+        android:id="@+id/imageButton6"
         android:src="@drawable/img12"
         android:background="@null"
+        android:onClick="takePicture"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:onClick="takePicture" />
+        android:layout_marginBottom="50dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton5"
+        android:background="@null"
+        android:adjustViewBounds="false"
+        android:src="@drawable/domekczerwony"
+        android:scaleType="fitStart"
+        android:onClick="homeClick"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView3"
+        android:src="@drawable/logo_min"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

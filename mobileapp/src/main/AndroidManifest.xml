@@ -23,31 +23,32 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.media30.zglosproblem.mobileapp.SplashActivity"
+            android:name=".SplashActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.media30.zglosproblem.mobileapp.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.media30.zglosproblem.mobileapp.SettingsActivity"
+            android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="com.media30.zglosproblem.mobileapp.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.media30.zglosproblem.mobileapp.MainActivity" />
         </activity>
         <activity
-            android:name="com.media30.zglosproblem.mobileapp.ImageActivity"
+            android:name=".ImageActivity"
             android:label="@string/title_activity_image"
-            android:parentActivityName="com.media30.zglosproblem.mobileapp.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -62,7 +63,7 @@
             android:value="AIzaSyC6vS0nePnFDNQi2-o7ye4MWXsZ2PuM5R4" />
 
         <activity
-            android:name="com.media30.zglosproblem.mobileapp.LocationActivity"
+            android:name=".LocationActivity"
             android:label="@string/title_activity_location"
             android:screenOrientation="portrait" >
             <meta-data
@@ -70,40 +71,44 @@
                 android:value="com.media30.zglosproblem.mobileapp.ImageActivity" />
         </activity>
         <activity
-            android:name="com.media30.zglosproblem.mobileapp.DescriptionActivity"
+            android:name=".DescriptionActivity"
             android:label="@string/title_activity_description"
-            android:parentActivityName="com.media30.zglosproblem.mobileapp.LocationActivity"
+            android:parentActivityName=".LocationActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.media30.zglosproblem.mobileapp.LocationActivity" />
         </activity>
         <activity
-            android:name="com.media30.zglosproblem.mobileapp.SummaryActivity"
+            android:name=".SummaryActivity"
             android:label="@string/title_activity_summary"
-            android:parentActivityName="com.media30.zglosproblem.mobileapp.DescriptionActivity"
+            android:parentActivityName=".DescriptionActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.media30.zglosproblem.mobileapp.DescriptionActivity" />
         </activity>
         <activity
-            android:name="com.media30.zglosproblem.mobileapp.ListActivity"
+            android:name=".ListActivity"
             android:label="@string/title_activity_list"
-            android:parentActivityName="com.media30.zglosproblem.mobileapp.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.media30.zglosproblem.mobileapp.MainActivity" />
         </activity>
         <activity
-            android:name="com.media30.zglosproblem.mobileapp.DetailsActivity"
+            android:name=".DetailsActivity"
             android:label="@string/title_activity_details"
-            android:parentActivityName="com.media30.zglosproblem.mobileapp.ListActivity"
+            android:parentActivityName=".ListActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.media30.zglosproblem.mobileapp.ListActivity" />
+        </activity>
+        <activity
+            android:name=".WelcomeActivity"
+            android:label="@string/title_activity_welcome" >
         </activity>
     </application>
 

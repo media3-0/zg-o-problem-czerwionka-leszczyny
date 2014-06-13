@@ -136,6 +136,18 @@ public class Report implements Parcelable{
         return MainActivity.HOST + "images/" + this.id + "." + this.ext;
     }
 
+    public String getThumbName(){
+        StringBuilder temp = new StringBuilder();
+        temp.append(this.getId()).append("t.jgp");
+        return temp.toString();
+    }
+
+    public String getImageName(){
+        StringBuilder temp = new StringBuilder();
+        temp.append(this.getId()).append(".jgp");
+        return temp.toString();
+    }
+
     @Override
     public int describeContents() {
         return 0;
