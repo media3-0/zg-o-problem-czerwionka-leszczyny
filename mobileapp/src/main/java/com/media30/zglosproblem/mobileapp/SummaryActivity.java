@@ -114,7 +114,7 @@ public class SummaryActivity extends Activity {
     }
 
     static void clearStackAndBackToMain(Context to){
-        Intent intent = new Intent(to, MainActivity.class);
+        Intent intent = new Intent(to, WelcomeActivity.class);
         if(Build.VERSION.SDK_INT > 10) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         }else {
@@ -144,10 +144,14 @@ public class SummaryActivity extends Activity {
     }
 
     public void homeClick(View view){
+        final ImageButton ib = (ImageButton)view;
+        HelperClass.onClickImageButton(this, ib, R.drawable.domekok_shadow, R.drawable.domekczerwony);
         SummaryActivity.cancelWizard(this);
     }
 
     public void wsteczClick(View view){
+        final ImageButton ib = (ImageButton)view;
+        HelperClass.onClickImageButton(this, ib, R.drawable.img7_shadow, R.drawable.img7);
         this.finish();
     }
 
@@ -250,10 +254,14 @@ public class SummaryActivity extends Activity {
         rp.put("subcat", String.valueOf(sp.getInt(MainActivity.SUBCAT, 1000)));
         rp.put("catstring", sp.getString(MainActivity.CAT_STRING, ""));
         if(dsp.getBoolean("prefApproval", false)){
-            rp.put("ident", "1");
+            if(dsp.getBoolean("prefApprovalView", false)) {
+                rp.put("ident", "1");
+            }else{
+                rp.put("ident", "0");
+            }
             rp.put("imie", dsp.getString("prefName",""));
             rp.put("nazwisko", dsp.getString("prefSurname",""));
-            rp.put("numer", dsp.getString("prefPhone",""));
+            rp.put("numer", dsp.getString("prefPhone", ""));
             rp.put("email", dsp.getString("prefEmail",""));
         }
         if(!TextUtils.isEmpty(sp.getString(MainActivity.IMAGE, ""))){
@@ -322,13 +330,15 @@ public class SummaryActivity extends Activity {
     }
 
     public void wyslijClick(View view){
+        final ImageButton ib = (ImageButton)view;
+        HelperClass.onClickImageButton(this, ib, R.drawable.img15_shadow, R.drawable.img15);
         if(!description || !location){
             AlertDialog.Builder dialog = new AlertDialog.Builder(SummaryActivity.this);
             dialog.setMessage(getResources().getString(R.string.no_loc_desc_message));
             dialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                    //nic
+                    //ib.setImageDrawable(getResources().getDrawable(R.drawable.img15));
                 }
             });
             dialog.show();
@@ -342,13 +352,14 @@ public class SummaryActivity extends Activity {
                 @Override
                 public void onClick(DialogInterface paramDialogInterface, int paramInt) {
                     sendReport();
+                    //ib.setImageDrawable(getResources().getDrawable(R.drawable.img15));
                 }
             });
             dialog.setNegativeButton(this.getString(R.string.no), new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                    // nic nie rób
+                    //.setImageDrawable(getResources().getDrawable(R.drawable.img15));
                 }
             });
             dialog.show();
@@ -358,17 +369,38 @@ public class SummaryActivity extends Activity {
     }
 
     public void pictureClick(View view){
+        final ImageButton ib = (ImageButton)view;
+        if(image){
+            HelperClass.onClickImageButton(this, ib, R.drawable.sprawdzdjecieok_shadow, R.drawable.sprawdzdjecieok);
+        }else {
+            HelperClass.onClickImageButton(this, ib, R.drawable.sprawdzdjecie_shadow, R.drawable.sprawdzdjecie);
+        }
         Intent intent = new Intent(this, ImageActivity.class);
+        intent.putExtra("back_to_summary", true);
         startActivity(intent);
     }
 
     public void locationClick(View view){
+        final ImageButton ib = (ImageButton)view;
+        if(location){
+            HelperClass.onClickImageButton(this, ib, R.drawable.sprawdzmiejsceok_shadow, R.drawable.sprawdzmiejsceok);
+        }else {
+            HelperClass.onClickImageButton(this, ib, R.drawable.sprawdzmiejsce_shadow, R.drawable.sprawdzmiejsce);
+        }
         Intent intent = new Intent(this, LocationActivity.class);
+        intent.putExtra("back_to_summary", true);
         startActivity(intent);
     }
 
     public void descriptionClick(View view){
+        final ImageButton ib = (ImageButton)view;
+        if(description){
+            HelperClass.onClickImageButton(this, ib, R.drawable.sprawdzopisok_shadow, R.drawable.sprawdzopisok);
+        }else {
+            HelperClass.onClickImageButton(this, ib, R.drawable.sprawdzopis_shadow, R.drawable.sprawdzopis);
+        }
         Intent intent = new Intent(this, DescriptionActivity.class);
+        intent.putExtra("back_to_summary", true);
         startActivity(intent);
     }
 }

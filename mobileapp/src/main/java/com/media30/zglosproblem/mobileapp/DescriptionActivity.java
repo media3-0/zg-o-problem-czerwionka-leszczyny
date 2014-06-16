@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.support.v7.widget.PopupMenu;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 
@@ -23,6 +24,7 @@ public class DescriptionActivity extends Activity {
     private EditText et;
     private SharedPreferences sp;
     private TextView tvCat;
+    private boolean backToSummary = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,8 @@ public class DescriptionActivity extends Activity {
         sp = getSharedPreferences(MainActivity.SHARED_PREFS, Context.MODE_PRIVATE);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_description);
+        if(getIntent().getExtras() != null)
+            backToSummary = getIntent().getExtras().getBoolean("back_to_summary", false);
         et = (EditText)findViewById(R.id.editText);
         tvCat = (TextView)findViewById(R.id.tvCat);
         et.addTextChangedListener(new TextWatcher() {
@@ -73,19 +77,32 @@ public class DescriptionActivity extends Activity {
     }
 
     public void wsteczClick(View view){
+        final ImageButton ib = (ImageButton)view;
+        HelperClass.onClickImageButton(this, ib, R.drawable.img7_shadow, R.drawable.img7);
         this.finish();
     }
 
     public void dalejClick(View view){
-        Intent intent = new Intent(this, SummaryActivity.class);
-        startActivity(intent);
+        final ImageButton ib = (ImageButton)view;
+        HelperClass.onClickImageButton(this, ib, R.drawable.img16_shadow, R.drawable.img16);
+        if(backToSummary){
+            Intent intent = new Intent(this, SummaryActivity.class);
+            startActivity(intent);
+        }else {
+            Intent intent = new Intent(this, SummaryActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void homeClick(View view){
+        final ImageButton ib = (ImageButton)view;
+        HelperClass.onClickImageButton(this, ib, R.drawable.domekok_shadow, R.drawable.domekczerwony);
         SummaryActivity.cancelWizard(this);
     }
 
     public void pickCategory(View view){
+        final ImageButton ib = (ImageButton)view;
+        HelperClass.onClickImageButton(this, ib, R.drawable.kategorie_shadow, R.drawable.kategorie);
         //wybór kategorii
         PopupMenu popupMenu = new PopupMenu(this, view);
         final Menu menu = popupMenu.getMenu();

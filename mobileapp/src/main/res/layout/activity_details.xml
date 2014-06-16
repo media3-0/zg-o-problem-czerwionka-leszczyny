@@ -6,6 +6,39 @@
     android:orientation="vertical"
     android:padding="0dp">
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/imageButton1"
+            android:src="@drawable/domekczerwony"
+            android:background="@null"
+            android:scaleType="fitStart"
+            android:adjustViewBounds="true"
+            android:onClick="homeClick"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/imageButton2"
+            android:src="@drawable/img4"
+            android:background="@null"
+            android:scaleType="fitEnd"
+            android:adjustViewBounds="true"
+            android:onClick="startClick"/>
+
+    </LinearLayout>
+
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="fill_parent"
@@ -32,6 +65,17 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/tvReport"
                 android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:id="@+id/ivImage" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/tvDate" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -84,10 +128,6 @@
                 android:id="@+id/tvSendBy"
                 android:visibility="gone" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:id="@+id/ivImage" />
         </LinearLayout>
     </ScrollView>
 

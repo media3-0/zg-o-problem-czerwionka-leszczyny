@@ -4,8 +4,10 @@
 
     <string name="pref_header_general">Dane osobowe</string>
 
-    <string name="approval_question">Zgoda</string>
-    <string name="approval_question_wide">Wyrażam zgodę na wysłanie i wyświetlanie moich danych osobowych</string>
+    <string name="approval_question">Zgoda na wysłanie danych osobowych</string>
+    <string name="approval_question_wide">Dzięki podaniu danych osobowych będziesz możliwość otrzymania informacji o zgłoszonym problemie. Zaznacz jeżeli chcesz podać dane.</string>
+    <string name="approval_view_question">Wyświetlanie danych</string>
+    <string name="approval_view_question_wide">Wyrażam zgodę na wyświetlanie danych w aplikacji</string>
 
     <string name="pref_name">Imię</string>
     <string name="pref_surname">Nazwisko</string>

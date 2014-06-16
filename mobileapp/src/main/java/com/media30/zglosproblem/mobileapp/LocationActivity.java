@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -26,12 +27,15 @@ public class LocationActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private Marker mark = null;
+    private boolean backToSummary = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_location_all);
+        if(getIntent().getExtras() != null)
+            backToSummary = getIntent().getExtras().getBoolean("back_to_summary", false);
         setUpMapIfNeeded();
     }
 
@@ -172,16 +176,27 @@ public class LocationActivity extends FragmentActivity {
 
     public void wsteczClick(View view){
         //przycisk wstecz
+        final ImageButton ib = (ImageButton)view;
+        HelperClass.onClickImageButton(this, ib, R.drawable.img7_shadow, R.drawable.img7);
         this.finish();
     }
 
     public void homeClick(View view){
+        final ImageButton ib = (ImageButton)view;
+        HelperClass.onClickImageButton(this, ib, R.drawable.domekok_shadow, R.drawable.domekczerwony);
         SummaryActivity.cancelWizard(this);
     }
 
     public void dalejClick(View view){
         //przycisk dalej
-        Intent intent = new Intent(this, DescriptionActivity.class);
-        startActivity(intent);
+        final ImageButton ib = (ImageButton)view;
+        HelperClass.onClickImageButton(this, ib, R.drawable.img16_shadow, R.drawable.img16);
+        if(backToSummary){
+            Intent intent = new Intent(this, SummaryActivity.class);
+            startActivity(intent);
+        }else {
+            Intent intent = new Intent(this, DescriptionActivity.class);
+            startActivity(intent);
+        }
     }
 }

@@ -36,6 +36,10 @@
     - Google Play Services\n
     - Android Asynchronous Http Client</string>
     <string name="title_activity_welcome">WelcomeActivity</string>
-
+    <string name="title_activity_phones">PhonesActivity</string>
+    <string name="no_internet_message">Do działania tej funkcji potrzebujes połączenia z internetem!</string>
+    <string name="title_activity_info">InfoActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_info_details">InfoDetailsActivity</string>
 
 </resources>

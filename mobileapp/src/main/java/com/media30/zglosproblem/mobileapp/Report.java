@@ -8,6 +8,10 @@ import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Report implements Parcelable{
     private int id;
     private String description;
@@ -17,6 +21,8 @@ public class Report implements Parcelable{
     private int cat;
     private int subcat;
     private String senderInfo;
+    private Date date;
+    private SimpleDateFormat ft;
 
     Report(JSONObject obj){
         try {
@@ -43,9 +49,13 @@ public class Report implements Parcelable{
             }else{
                 this.senderInfo = null;
             }
+            ft = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
+            date = ft.parse(obj.getString("added"));
 
         }catch (JSONException e){
             Log.e("JSONException", e.toString());
+        }catch (ParseException e){
+            Log.e("ParseException", e.toString());
         }
     }
 
@@ -60,6 +70,12 @@ public class Report implements Parcelable{
         this.subcat = in.readInt();
         this.catString = in.readString();
         this.senderInfo = in.readString();
+        ft = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
+        try {
+            this.date = ft.parse(in.readString());
+        }catch (ParseException e){
+            Log.e("ParseException", e.toString());
+        }
     }
 
     public int getId() {
@@ -148,6 +164,10 @@ public class Report implements Parcelable{
         return temp.toString();
     }
 
+    public String getDate(){
+        return ft.format(this.date);
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -175,5 +195,6 @@ public class Report implements Parcelable{
         parcel.writeInt(this.subcat);
         parcel.writeString(this.catString);
         parcel.writeString(this.senderInfo);
+        parcel.writeString(ft.format(this.date));
     }
 }

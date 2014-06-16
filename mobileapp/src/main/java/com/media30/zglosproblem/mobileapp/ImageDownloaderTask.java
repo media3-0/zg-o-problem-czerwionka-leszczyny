@@ -105,8 +105,9 @@ class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
                     while ((read = inputStream.read(bytes)) != -1) {
                         os.write(bytes, 0, read);
                     }
+                    os.flush();
 
-                    return BitmapFactory.decodeStream(inputStream);
+                    return BitmapFactory.decodeFile(filepath);
                 } finally {
                     if (inputStream != null) {
                         inputStream.close();

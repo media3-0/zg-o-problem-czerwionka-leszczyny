@@ -20,13 +20,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageButton3"
-        android:src="@drawable/img4"
+        android:src="@drawable/start"
         android:background="@null"
         android:onClick="startClick"
+        android:layout_marginBottom="73dp"
+        android:layout_above="@+id/imageView2"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="49dp"
-        android:layout_above="@+id/imageView2" />
+        android:layout_marginRight="29dp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -58,7 +59,6 @@
         android:background="@null"
         android:adjustViewBounds="false"
         android:src="@drawable/domekczerwony"
-        android:scaleType="fitStart"
         android:onClick="homeClick" />
 
     <ImageView
@@ -68,6 +68,10 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/logo_min" />
+        android:src="@drawable/logo_min"
+        android:layout_alignBottom="@+id/imageButton5"
+        android:adjustViewBounds="false"
+        android:cropToPadding="false"
+        android:baselineAlignBottom="false" />
 
 </RelativeLayout>

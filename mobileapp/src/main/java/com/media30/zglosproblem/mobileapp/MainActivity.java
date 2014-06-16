@@ -6,10 +6,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.view.*;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 
@@ -77,6 +80,21 @@ public class MainActivity extends Activity {
     }
 
     public void startClick(View view){
+        final ImageButton ib = (ImageButton)view;
+        HelperClass.onClickImageButton(this, ib, R.drawable.start_shadow, R.drawable.start);
+        if(!isNetworkAvailable()){
+            AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+            dialog.setMessage(getResources().getString(R.string.no_internet_message));
+            dialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    //
+                }
+            });
+            dialog.show();
+            return;
+        }
+
         SharedPreferences dsp = PreferenceManager.getDefaultSharedPreferences(this);
         if(!dsp.getBoolean("prefApproval", false)){
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -101,11 +119,27 @@ public class MainActivity extends Activity {
     }
 
     public void listyClick(View view){
+        final ImageButton ib = (ImageButton)view;
+        HelperClass.onClickImageButton(this, ib, R.drawable.img3_shadow, R.drawable.img3);
+        if(!isNetworkAvailable()){
+            AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+            dialog.setMessage(getResources().getString(R.string.no_internet_message));
+            dialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    //ib.setImageDrawable(getResources().getDrawable(R.drawable.img3));
+                }
+            });
+            dialog.show();
+            return;
+        }
         Intent intent = new Intent(this, ListActivity.class);
         startActivity(intent);
     }
 
     public void homeClick(View view){
+        final ImageButton ib = (ImageButton)view;
+        HelperClass.onClickImageButton(this, ib, R.drawable.domekok_shadow, R.drawable.domekczerwony);
         Intent i = new Intent(MainActivity.this, WelcomeActivity.class);
         if(Build.VERSION.SDK_INT > 10) {
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -116,8 +150,16 @@ public class MainActivity extends Activity {
     }
 
     public void telClick(View view){
-        Toast toast = Toast.makeText(this, "Brak funkcjonalności", Toast.LENGTH_LONG);
-        toast.show();
-        // TODO : telefony
+        final ImageButton ib = (ImageButton)view;
+        HelperClass.onClickImageButton(this, ib, R.drawable.telefon_shadow, R.drawable.tel);
+        Intent intent = new Intent(this, PhonesActivity.class);
+        startActivity(intent);
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

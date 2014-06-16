@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -46,14 +47,11 @@ public class ListActivity extends FragmentActivity {
     private ProgressDialog pd;
     public boolean closing = false;
     public int actualFragmentId;
-    public int actualTab = 1;
+    public int actualTab = 0;
     public List<Report> reportList;
     public FragmentTabHost mTabHost;
 
-    final private String numer = "324311928";
-
     private int [][] resTab = new int [][] {
-            { R.drawable.telefon },
             { R.drawable.lista, R.drawable.listaczerwona },
             { R.drawable.pin, R.drawable.pinczerwony },
             { R.drawable.galeria, R.drawable.galeriaczerwona }
@@ -70,10 +68,9 @@ public class ListActivity extends FragmentActivity {
         mTabHost = (FragmentTabHost) findViewById(R.id.tabHost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.readTabContent);
 
-        addCustomTab(this, "0", getResources().getDrawable(resTab[0][0]), DummyFragment.class, mTabHost);
-        addCustomTab(this, "1", getResources().getDrawable(resTab[1][1]), ReportsListFragment.class, mTabHost);
-        addCustomTab(this, "2", getResources().getDrawable(resTab[2][0]), ReportsMapFragment.class, mTabHost);
-        addCustomTab(this, "3", getResources().getDrawable(resTab[3][0]), ReportsThumbsFragment.class, mTabHost);
+        addCustomTab(this, "1", getResources().getDrawable(resTab[0][1]), ReportsListFragment.class, mTabHost);
+        addCustomTab(this, "2", getResources().getDrawable(resTab[1][0]), ReportsMapFragment.class, mTabHost);
+        addCustomTab(this, "3", getResources().getDrawable(resTab[2][0]), ReportsThumbsFragment.class, mTabHost);
 
         mTabHost.setCurrentTab(actualTab);
 
@@ -133,13 +130,13 @@ public class ListActivity extends FragmentActivity {
         fth.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String s) {
-                if(s.contains("0")){
+/*                if(s.contains("0")){
                     Intent intent = new Intent(Intent.ACTION_DIAL);
                     intent.setData(Uri.parse("tel:" + numer));
                     startActivity(intent);
                     return;
-                }
-                for(int i=1;i<mTabHost.getTabWidget().getChildCount();i++)
+                }*/
+                for(int i=0;i<mTabHost.getTabWidget().getChildCount();i++)
                 {
                     ImageView ib = (ImageView)mTabHost.getTabWidget().getChildAt(i);
                     ImageView ibc = (ImageView)mTabHost.getCurrentTabView();
@@ -160,7 +157,15 @@ public class ListActivity extends FragmentActivity {
     }
 
     public void homeClick(View view){
-        this.finish();
+        final ImageButton ib = (ImageButton)view;
+        HelperClass.onClickImageButton(this, ib, R.drawable.domekok_shadow, R.drawable.domekczerwony);
+        Intent i = new Intent(ListActivity.this, WelcomeActivity.class);
+        if(Build.VERSION.SDK_INT > 10) {
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        }else {
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }
+        startActivity(i);
     }
 
     public void startClick(View view){
@@ -408,7 +413,7 @@ public class ListActivity extends FragmentActivity {
         }
     }
 
-    public static class DummyFragment extends Fragment implements RefreshableFragment {
+    /*public static class DummyFragment extends Fragment implements RefreshableFragment {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -435,7 +440,7 @@ public class ListActivity extends FragmentActivity {
             la.actualFragmentId = this.getId();
             super.onAttach(activity);
         }
-    }
+    }*/
 }
 
 

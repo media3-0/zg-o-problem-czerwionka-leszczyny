@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.*;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.graphics.Bitmap;
 import java.io.File;
@@ -31,6 +32,7 @@ public class ImageActivity extends Activity {
     private ImageView iv;
     private File photoFile = null;
     private boolean imageSet = false;
+    private boolean backToSummary = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,8 @@ public class ImageActivity extends Activity {
         iv = (ImageView)findViewById(R.id.imageView);
         iv.setAdjustViewBounds(true);
         iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        if(getIntent().getExtras() != null)
+            backToSummary = getIntent().getExtras().getBoolean("back_to_summary", false);
     }
 
 
@@ -54,6 +58,8 @@ public class ImageActivity extends Activity {
     }
 
     public void homeClick(View view){
+        final ImageButton ib = (ImageButton)view;
+        HelperClass.onClickImageButton(this, ib, R.drawable.domekok_shadow, R.drawable.domekczerwony);
         SummaryActivity.cancelWizard(this);
     }
 
@@ -104,6 +110,8 @@ public class ImageActivity extends Activity {
     }
 
     public void takePicture(View view){
+        final ImageButton ib = (ImageButton)view;
+        HelperClass.onClickImageButton(this, ib, R.drawable.img12_shadow, R.drawable.img12);
         //robienie zdjęcia
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -116,7 +124,7 @@ public class ImageActivity extends Activity {
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                //użytkownik wie o błędzie
+                                //ib.setImageDrawable(getResources().getDrawable(R.drawable.img12));
                             }
                         });
                 AlertDialog alert = builder.create();
@@ -132,6 +140,8 @@ public class ImageActivity extends Activity {
     }
 
     public void pickPicture(View view){
+        final ImageButton ib = (ImageButton)view;
+        HelperClass.onClickImageButton(this, ib, R.drawable.img11_shadow, R.drawable.img11);
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, REQUEST_SELECT_PHOTO);
@@ -176,13 +186,22 @@ public class ImageActivity extends Activity {
 
     public void wsteczClick(View view){
         //Przycisk "Wstecz"
+        final ImageButton ib = (ImageButton)view;
+        HelperClass.onClickImageButton(this, ib, R.drawable.img7_shadow, R.drawable.img7);
         this.finish();
     }
 
     public void dalejClick(View view){
         //Przycisk "Dalej"
-        Intent intent = new Intent(this, LocationActivity.class);
-        startActivity(intent);
+        final ImageButton ib = (ImageButton)view;
+        HelperClass.onClickImageButton(this, ib, R.drawable.img16_shadow, R.drawable.img16);
+        if(backToSummary){
+            Intent intent = new Intent(this, SummaryActivity.class);
+            startActivity(intent);
+        }else {
+            Intent intent = new Intent(this, LocationActivity.class);
+            startActivity(intent);
+        }
     }
 
 }

@@ -66,8 +66,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates" />
       <excludeFolder url="file://$MODULE_DIR$/build/libs" />
       <excludeFolder url="file://$MODULE_DIR$/build/lint" />
-      <excludeFolder url="file://$MODULE_DIR$/build/lint-results.html" />
-      <excludeFolder url="file://$MODULE_DIR$/build/lint-results.xml" />
       <excludeFolder url="file://$MODULE_DIR$/build/lint-results_files" />
       <excludeFolder url="file://$MODULE_DIR$/build/manifests" />
       <excludeFolder url="file://$MODULE_DIR$/build/ndk" />
