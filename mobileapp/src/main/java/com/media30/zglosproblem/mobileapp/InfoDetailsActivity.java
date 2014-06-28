@@ -60,8 +60,9 @@ public class InfoDetailsActivity extends ActionBarActivity {
     }
 
     public void fbClick(View view){
-        Toast toast = Toast.makeText(this, "Nie zaimplementowano", Toast.LENGTH_LONG);
-        toast.show();
-        // TODO : Udostępnianie na fb
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, info.getInfo());
+        startActivity(Intent.createChooser(intent, "Udostępnij informację"));
     }
 }

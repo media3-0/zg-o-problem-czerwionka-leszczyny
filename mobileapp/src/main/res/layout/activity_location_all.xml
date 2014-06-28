@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageButton4"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="60dp"
         android:src="@drawable/img7"
         android:background="@null"
         android:onClick="wsteczClick"
@@ -62,5 +62,17 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etSearch"
+        android:layout_below="@+id/imageButton"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:background="#ffffffff"
+        android:hint="Wyszukaj adres"
+        android:padding="5dp" />
 
 </RelativeLayout>

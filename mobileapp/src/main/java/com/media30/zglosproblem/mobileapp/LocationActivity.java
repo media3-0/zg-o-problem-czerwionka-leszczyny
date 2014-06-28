@@ -5,15 +5,24 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,6 +31,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.util.List;
 
 public class LocationActivity extends FragmentActivity {
 
@@ -36,6 +48,22 @@ public class LocationActivity extends FragmentActivity {
         setContentView(R.layout.activity_location_all);
         if(getIntent().getExtras() != null)
             backToSummary = getIntent().getExtras().getBoolean("back_to_summary", false);
+        EditText etSearch = (EditText)findViewById(R.id.etSearch);
+        etSearch.setImeActionLabel("Szukaj", KeyEvent.ACTION_DOWN);
+        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_NULL
+                        && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    String location = textView.getText().toString();
+                    if(!TextUtils.isEmpty(location))
+                        new GeocoderTask().execute(location);
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(textView.getWindowToken(), 0);
+                }
+                return true;
+            }
+        });
         setUpMapIfNeeded();
     }
 
@@ -197,6 +225,48 @@ public class LocationActivity extends FragmentActivity {
         }else {
             Intent intent = new Intent(this, DescriptionActivity.class);
             startActivity(intent);
+        }
+    }
+
+    private class GeocoderTask extends AsyncTask<String, Void, List<Address>> {
+
+        @Override
+        protected List<Address> doInBackground(String... locationName) {
+            // Creating an instance of Geocoder class
+            Geocoder geocoder = new Geocoder(getBaseContext());
+            List<Address> addresses = null;
+
+            try {
+                // Getting a maximum of 3 Address that matches the input text
+                addresses = geocoder.getFromLocationName(locationName[0], 3);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return addresses;
+        }
+
+        @Override
+        protected void onPostExecute(List<Address> addresses) {
+
+            if(addresses==null || addresses.size()==0){
+                Toast.makeText(getBaseContext(), "Nic nie znaleziono", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if(addresses.size() > 0){
+
+                Address address = addresses.get(0);
+
+                LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+                String addressText = String.format("%s",
+                        address.getMaxAddressLineIndex() > 0 ? address.getAddressLine(0) : "");
+
+                Toast toast = Toast.makeText(LocationActivity.this, addressText, Toast.LENGTH_LONG);
+                toast.show();
+
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+            }
         }
     }
 }

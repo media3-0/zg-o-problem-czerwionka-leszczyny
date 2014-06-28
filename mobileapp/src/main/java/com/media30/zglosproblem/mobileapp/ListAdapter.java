@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.List;
 
 public class ListAdapter extends ArrayAdapter<Report> {
@@ -27,12 +26,6 @@ public class ListAdapter extends ArrayAdapter<Report> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        /*View v = convertView;
-        if(v == null){
-            LayoutInflater vi;
-            vi = LayoutInflater.from(getContext());
-            v = vi.inflate(layoutRes, null);
-        }*/
         LayoutInflater inflater = (LayoutInflater) getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(layoutRes, parent, false);
