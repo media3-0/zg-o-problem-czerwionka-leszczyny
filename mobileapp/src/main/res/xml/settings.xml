@@ -12,6 +12,7 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="prefApprovalView"
+            android:dependency="prefApproval"
             android:summary="@string/approval_view_question_wide"
             android:title="@string/approval_view_question" >
         </CheckBoxPreference>

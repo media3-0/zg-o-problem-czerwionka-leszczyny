@@ -115,10 +115,10 @@ public class LocationActivity extends FragmentActivity {
                 setUpMap();
 
                 View loc = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getView();
-                final View map = loc.findViewById(1);
+                @SuppressWarnings("ResourceType") final View map = loc.findViewById(1);
 
                 View mapParent = (View)map.getParent();
-                View locationButton = mapParent.findViewById(2);
+                @SuppressWarnings("ResourceType") View locationButton = mapParent.findViewById(2);
 
                 RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
                 rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
