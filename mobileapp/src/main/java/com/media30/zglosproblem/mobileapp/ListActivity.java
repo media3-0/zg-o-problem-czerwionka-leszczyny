@@ -32,6 +32,7 @@ import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.Toast;
 import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.loopj.android.http.AsyncHttpClient;
@@ -229,10 +230,17 @@ public class ListActivity extends FragmentActivity {
             if(la.reportList != null && mMap != null) {
                 mMap.clear();
                 for(Report r : la.reportList){
+                    int resource;
+                    if(r.getCat() == 1000){
+                        resource = R.drawable.inne;
+                    }else {
+                        resource = Categories.categoriesResources[r.getCat()];
+                    }
                     mMap.addMarker(new MarkerOptions()
                         .position(r.getLocation())
                         .title("Zgłoszenie nr: " + r.getId())
                         .snippet(r.getDescription())
+                        .icon(BitmapDescriptorFactory.fromResource(resource))
                     );
                 }
             }
@@ -255,10 +263,10 @@ public class ListActivity extends FragmentActivity {
                 if (mMap != null) {
 
                     View loc = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map_fragment)).getView();
-                    View map = loc.findViewById(1);
+                    @SuppressWarnings("ResourceType") View map = loc.findViewById(1);
 
                     View mapParent = (View)map.getParent();
-                    View locationButton = mapParent.findViewById(2);
+                    @SuppressWarnings("ResourceType") View locationButton = mapParent.findViewById(2);
 
                     RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
                     rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);

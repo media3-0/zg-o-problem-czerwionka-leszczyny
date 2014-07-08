@@ -14,6 +14,18 @@ final public class Categories {
             "Inne"
     };
 
+    public static int [] categoriesResources = new int[] {
+            R.drawable.dewastacja,
+            R.drawable.drogi,
+            R.drawable.komunikacja,
+            R.drawable.wodno_kanalizacyjne,
+            R.drawable.lokalowe,
+            R.drawable.zielen,
+            R.drawable.zwierzeta,
+            R.drawable.smieci,
+            R.drawable.odsniezanie
+    };
+
     public static String [][] subcategories = new String[][] {
             {//Uszkodzenie, dewastacja
                 "graffiti",
