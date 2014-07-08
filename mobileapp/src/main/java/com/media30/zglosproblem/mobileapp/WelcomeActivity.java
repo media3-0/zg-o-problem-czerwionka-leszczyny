@@ -2,20 +2,33 @@ package com.media30.zglosproblem.mobileapp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
 
 
 public class WelcomeActivity extends Activity {
@@ -77,5 +90,52 @@ public class WelcomeActivity extends Activity {
         }
         Intent intent = new Intent(this, InfoActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        AsyncHttpClient httpClient = new AsyncHttpClient();
+        httpClient.get(MainActivity.HOST + "infolist.php", new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(JSONArray response) {
+                if(response.length() > 0) {
+                    ArrayList<Information> infoList = new ArrayList<Information>(response.length());
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            infoList.add(new Information(response.getJSONObject(i)));
+                        } catch (JSONException e) {
+                            Log.e("JSONException", e.toString());
+                        }
+                    }
+
+                    SharedPreferences prefs = getSharedPreferences("readInfoPrefs", 0);
+                    String[] readArray = prefs.getString("readinfo","").split("|");
+                    ArrayList<String> readList = new ArrayList<String>();
+                    int unreadCounter = 0;
+                    for(String t : readArray) {
+                        if (!TextUtils.isEmpty(t))
+                            readList.add(t);
+                    }
+                    for(Information info : infoList){
+                        if(!readList.contains(String.valueOf(info.getId())))
+                            unreadCounter++;
+                    }
+                    TextView tvUnreadBadge = (TextView)findViewById(R.id.tvUnreadBadge);
+                    if(unreadCounter > 0){
+                        tvUnreadBadge.setVisibility(View.VISIBLE);
+                        tvUnreadBadge.setText(String.valueOf(unreadCounter));
+                    }else{
+                        tvUnreadBadge.setVisibility(View.GONE);
+                    }
+                }
+                Log.d("onSuccessJson", response.toString());
+            }
+
+            @Override
+            public void onFailure(String responseBody, Throwable error) {
+                //
+            }
+        });
     }
 }

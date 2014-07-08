@@ -60,4 +60,22 @@
         android:layout_alignParentTop="false"
         android:layout_alignEnd="@+id/imageButton3"
         android:layout_alignParentBottom="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:id="@+id/tvUnreadBadge"
+        android:layout_alignTop="@+id/imageButton"
+        android:layout_toRightOf="@+id/imageButton"
+        android:background="@drawable/round_corner"
+        android:textColor="#ffffffff"
+        android:singleLine="true"
+        android:layout_marginLeft="5dp"
+        android:ellipsize="marquee"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:visibility="gone" />
 </RelativeLayout>
