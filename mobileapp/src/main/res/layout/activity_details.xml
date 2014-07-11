@@ -66,7 +66,7 @@
                 android:id="@+id/tvReport"
                 android:textStyle="bold" />
 
-            <ImageView
+            <uk.co.senab.photoview.PhotoView
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:id="@+id/ivImage" />

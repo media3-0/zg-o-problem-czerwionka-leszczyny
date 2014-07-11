@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import java.util.List;
 
 public class ListAdapter extends ArrayAdapter<Report> {
@@ -39,7 +40,7 @@ public class ListAdapter extends ArrayAdapter<Report> {
             if(iv != null) {
                 String thumbUrl = report.getThumbUrl();
                 if (!TextUtils.isEmpty(thumbUrl)) {
-                    new ImageDownloaderTask(iv, report, getContext().getApplicationContext(), null).execute(thumbUrl);
+                    new ImageDownloaderTask(iv, report, getContext().getApplicationContext(), null, null).execute(thumbUrl);
                 } else {
                     iv.setImageDrawable(getContext().getResources().getDrawable(R.drawable.no_image));
                 }

@@ -14,10 +14,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 
 public class DetailsActivity extends Activity {
 
     Report report;
+    private PhotoViewAttacher mAttacher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +43,12 @@ public class DetailsActivity extends Activity {
 
         //obrazek
         ImageView iv = (ImageView)findViewById(R.id.ivImage);
+        mAttacher = new PhotoViewAttacher(iv);
         String imgUrl = report.getImageUrl();
         if(!TextUtils.isEmpty(imgUrl)){
             ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar);
             progressBar.setVisibility(View.VISIBLE);
-            new ImageDownloaderTask(iv, report, getApplicationContext(), progressBar).execute(imgUrl);
+            new ImageDownloaderTask(iv, report, getApplicationContext(), progressBar, mAttacher).execute(imgUrl);
         }else{
             iv.setVisibility(View.GONE);
         }

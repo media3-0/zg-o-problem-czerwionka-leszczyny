@@ -1,15 +1,5 @@
 package com.media30.zglosproblem.mobileapp;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.ref.WeakReference;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,20 +11,34 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
     //private final WeakReference imageViewReference;
     private final ImageView imageViewReference;
     private final ProgressBar progressBarReference;
     private final Context contextReference;
     private final Report reportReference;
+    private final PhotoViewAttacher mAttacherReference;
     private String filepath;
 
-    public ImageDownloaderTask(ImageView imageView, Report report, Context context, ProgressBar progressBar) {
+    public ImageDownloaderTask(ImageView imageView, Report report, Context context, ProgressBar progressBar, PhotoViewAttacher mAttacher) {
         //imageViewReference = new WeakReference(imageView);
         imageViewReference = imageView;
         progressBarReference = progressBar;
         contextReference = context;
         reportReference = report;
+        mAttacherReference = mAttacher;
     }
 
     @Override
@@ -72,6 +76,8 @@ class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 
             if (bitmap != null) {
                 imageViewReference.setImageBitmap(bitmap);
+                if(mAttacherReference != null)
+                    mAttacherReference.update();
                 if(progressBarReference != null){
                     progressBarReference.setVisibility(View.GONE);
                 }

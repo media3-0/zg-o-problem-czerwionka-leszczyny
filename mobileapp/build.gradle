@@ -20,8 +20,8 @@ android {
     }
     buildTypes {
         release {
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            runProguard true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.txt'
             signingConfig signingConfigs.release
         }
     }
@@ -33,8 +33,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    // You must install or update the Google Repository through the SDK manager to use this dependency.
     compile files('libs/android-async-http-1.4.4.jar')
+    compile 'com.github.chrisbanes.photoview:library:1.2'
     compile 'com.android.support:appcompat-v7:19.1.0'
     compile 'com.android.support:support-v4:19.+'
     compile 'com.google.android.gms:play-services:4.+'

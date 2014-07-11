@@ -7,22 +7,28 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.View;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.graphics.Bitmap;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 
 public class ImageActivity extends Activity {
@@ -33,6 +39,7 @@ public class ImageActivity extends Activity {
     private File photoFile = null;
     private boolean imageSet = false;
     private boolean backToSummary = false;
+    private PhotoViewAttacher mAttacher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +47,11 @@ public class ImageActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_image);
         iv = (ImageView)findViewById(R.id.imageView);
-        iv.setAdjustViewBounds(true);
-        iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        mAttacher = new PhotoViewAttacher(iv);
+        mAttacher.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         if(getIntent().getExtras() != null)
             backToSummary = getIntent().getExtras().getBoolean("back_to_summary", false);
     }
-
 
     @Override
     public boolean onPrepareOptionsMenu (Menu menu) {
@@ -106,6 +112,7 @@ public class ImageActivity extends Activity {
         if(!TextUtils.isEmpty(sp.getString(MainActivity.IMAGE, "")) && !imageSet){
             Bitmap imageBitmap = decodeFile(new File(sp.getString(MainActivity.IMAGE, "")));
             iv.setImageBitmap(imageBitmap);
+            mAttacher.update();
         }
     }
 
@@ -156,6 +163,7 @@ public class ImageActivity extends Activity {
             if(photoFile != null && photoFile.exists()) {
                 Bitmap imageBitmap = decodeFile(new File(photoFile.getAbsolutePath()));
                 iv.setImageBitmap(imageBitmap);
+                mAttacher.update();
                 imageSet = true;
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putString(MainActivity.IMAGE, photoFile.getAbsolutePath());
@@ -177,6 +185,7 @@ public class ImageActivity extends Activity {
 
             Bitmap yourSelectedImage = decodeFile(new File(filePath));
             iv.setImageBitmap(yourSelectedImage);
+            mAttacher.update();
             imageSet = true;
             SharedPreferences.Editor editor = sp.edit();
             editor.putString(MainActivity.IMAGE, filePath);
