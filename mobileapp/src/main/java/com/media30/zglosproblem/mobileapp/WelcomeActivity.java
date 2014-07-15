@@ -2,25 +2,21 @@ package com.media30.zglosproblem.mobileapp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -32,6 +28,8 @@ import java.util.ArrayList;
 
 
 public class WelcomeActivity extends Activity {
+
+    static int unreadInfoCount = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,8 +91,15 @@ public class WelcomeActivity extends Activity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
+        final TextView tvUnreadBadge = (TextView)findViewById(R.id.tvUnreadBadge);
+        if(unreadInfoCount > 0){
+            tvUnreadBadge.setText(String.valueOf(unreadInfoCount));
+            tvUnreadBadge.setVisibility(View.VISIBLE);
+        }else{
+            tvUnreadBadge.setVisibility(View.GONE);
+        }
         AsyncHttpClient httpClient = new AsyncHttpClient();
         httpClient.get(MainActivity.HOST + "infolist.php", new JsonHttpResponseHandler(){
             @Override
@@ -110,7 +115,7 @@ public class WelcomeActivity extends Activity {
                     }
 
                     SharedPreferences prefs = getSharedPreferences("readInfoPrefs", 0);
-                    String[] readArray = prefs.getString("readinfo","").split("|");
+                    String[] readArray = prefs.getString("readinfo","").split("\\|");
                     ArrayList<String> readList = new ArrayList<String>();
                     int unreadCounter = 0;
                     for(String t : readArray) {
@@ -121,13 +126,14 @@ public class WelcomeActivity extends Activity {
                         if(!readList.contains(String.valueOf(info.getId())))
                             unreadCounter++;
                     }
-                    TextView tvUnreadBadge = (TextView)findViewById(R.id.tvUnreadBadge);
+
                     if(unreadCounter > 0){
                         tvUnreadBadge.setVisibility(View.VISIBLE);
                         tvUnreadBadge.setText(String.valueOf(unreadCounter));
                     }else{
                         tvUnreadBadge.setVisibility(View.GONE);
                     }
+                    WelcomeActivity.unreadInfoCount = unreadCounter;
                 }
                 Log.d("onSuccessJson", response.toString());
             }

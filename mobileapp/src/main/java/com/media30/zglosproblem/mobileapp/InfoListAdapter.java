@@ -29,7 +29,7 @@ public class InfoListAdapter extends ArrayAdapter<Information> {
         super(context, resource, items);
         layoutRes = resource;
         SharedPreferences prefs = context.getSharedPreferences("readInfoPrefs", 0);
-        String[] readArray = prefs.getString("readinfo","").split("|");
+        String[] readArray = prefs.getString("readinfo","").split("\\|");
         readList = new ArrayList<String>();
         for(String t : readArray){
             if(!TextUtils.isEmpty(t))
@@ -66,12 +66,16 @@ public class InfoListAdapter extends ArrayAdapter<Information> {
                     }
                 }, 200);
 
-                SharedPreferences prefs = context.getSharedPreferences("readInfoPrefs", 0);
-                SharedPreferences.Editor editor = prefs.edit();
-                StringBuilder sb = new StringBuilder();
-                sb.append(prefs.getString("readinfo", "")).append(info.getId()).append("|");
-                editor.putString("readinfo", sb.toString());
-                editor.commit();
+                if(!readList.contains(String.valueOf(info.getId()))) {
+                    SharedPreferences prefs = context.getSharedPreferences("readInfoPrefs", 0);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(prefs.getString("readinfo", "")).append(info.getId()).append("|");
+                    editor.putString("readinfo", sb.toString());
+                    editor.commit();
+                    readList.add(String.valueOf(info.getId()));
+                    WelcomeActivity.unreadInfoCount--;
+                }
                 TextView tvTitle = (TextView)ll.findViewById(R.id.tvInfoTitle);
                 tvTitle.setTypeface(Typeface.DEFAULT);
                 Intent intent = new Intent(getContext(), InfoDetailsActivity.class);
