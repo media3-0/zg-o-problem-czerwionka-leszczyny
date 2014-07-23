@@ -11,11 +11,13 @@ public class Information implements Parcelable {
     private int id;
     private String Title;
     private String Info;
+    private String ImageUrl;
 
-    Information(int id, String Title, String Info){
+    Information(int id, String Title, String Info, String ImageUrl){
         this.id = id;
         this.Title = Title;
         this.Info = Info;
+        this.ImageUrl = ImageUrl;
     }
 
     Information(JSONObject obj){
@@ -23,6 +25,7 @@ public class Information implements Parcelable {
             this.id = obj.getInt("id");
             this.Title = obj.getString("title");
             this.Info = obj.getString("info");
+            this.ImageUrl = obj.getString("url");
 
         }catch (JSONException e){
             Log.e("JSONException", e.toString());
@@ -33,6 +36,7 @@ public class Information implements Parcelable {
         this.id = in.readInt();
         this.Title = in.readString();
         this.Info = in.readString();
+        this.ImageUrl = in.readString();
     }
 
     public int getId() {
@@ -45,6 +49,10 @@ public class Information implements Parcelable {
 
     public String getInfo() {
         return Info;
+    }
+
+    public String getImageUrl() {
+        return "info/" + this.getId() + "." + ImageUrl;
     }
 
     @Override
@@ -68,5 +76,6 @@ public class Information implements Parcelable {
         parcel.writeInt(this.id);
         parcel.writeString(this.Title);
         parcel.writeString(this.Info);
+        parcel.writeString(this.ImageUrl);
     }
 }

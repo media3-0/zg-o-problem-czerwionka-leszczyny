@@ -4,20 +4,26 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.media30.zglosproblem.mobileapp.R;
 
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 public class InfoDetailsActivity extends ActionBarActivity {
 
     Information info;
+    PhotoViewAttacher mAttacher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,14 @@ public class InfoDetailsActivity extends ActionBarActivity {
         tv.setText(info.getTitle());
         tv = (TextView)findViewById(R.id.tvInfo);
         tv.setText(info.getInfo());
+        if(!TextUtils.isEmpty(info.getImageUrl())){
+            ImageView iv = (ImageView)findViewById(R.id.ivInfoImage);
+            mAttacher = new PhotoViewAttacher(iv);
+            ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.VISIBLE);
+            new InfoImageDownloaderTask(iv, info, getApplicationContext(), progressBar, mAttacher)
+                    .execute(MainActivity.HOST + info.getImageUrl());
+        }
     }
 
 

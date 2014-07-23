@@ -41,6 +41,15 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar"
+                android:indeterminate="true"
+                android:indeterminateOnly="true"
+                android:visibility="gone" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,9 +68,16 @@
                 android:layout_height="wrap_content"
                 android:text="New Text"
                 android:id="@+id/tvInfo"
+                android:autoLink="all"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:paddingBottom="15dp" />
+
+            <uk.co.senab.photoview.PhotoView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:id="@+id/ivInfoImage"
+                android:visibility="gone" />
 
             <ImageButton
                 android:layout_width="wrap_content"

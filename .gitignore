@@ -3,3 +3,4 @@
 gradle
 mobileapp\build
 build
+local.properties
