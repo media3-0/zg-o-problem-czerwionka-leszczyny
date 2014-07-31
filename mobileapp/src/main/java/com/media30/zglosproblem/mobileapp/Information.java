@@ -2,6 +2,7 @@ package com.media30.zglosproblem.mobileapp;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,6 +54,10 @@ public class Information implements Parcelable {
 
     public String getImageUrl() {
         return "info/" + this.getId() + "." + ImageUrl;
+    }
+
+    public boolean isImage(){
+        return !TextUtils.isEmpty(this.ImageUrl);
     }
 
     @Override

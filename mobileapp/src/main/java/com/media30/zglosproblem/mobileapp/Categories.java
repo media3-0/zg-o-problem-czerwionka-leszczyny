@@ -11,6 +11,7 @@ final public class Categories {
             "Zwierzęta",
             "Śmieci",
             "Odśnieżanie",
+            "Straż miejska",
             "Inne"
     };
 
@@ -23,12 +24,14 @@ final public class Categories {
             R.drawable.zielen,
             R.drawable.zwierzeta,
             R.drawable.smieci,
-            R.drawable.odsniezanie
+            R.drawable.odsniezanie,
+            R.drawable.lokalowe //fixme : ikonka dla straży miejskiej!
     };
 
     public static String [][] subcategories = new String[][] {
             {//Uszkodzenie, dewastacja
                 "graffiti",
+                "budynku użyteczności publicznej",
                 "zdewastowany plac zabaw",
                 "zdewastowana ławka",
                 "zdewastowany kosz na śmieci",
@@ -38,8 +41,6 @@ final public class Categories {
                 "inne"
             }, {//Drogi
                 "uszkodzenie barierki, słupka, znaku drogowego",
-                "nielegalna reklama w pasie drogi",
-                "nielegalne zajęcie pasa drogi",
                 "uszkodzona latarnia",
                 "uszkodzenie sygnalizacji świetlne",
                 "uszkodzona nawierzchnia",
@@ -52,8 +53,6 @@ final public class Categories {
                 "inne"
             }, {//Wodno-kanalizacyjne
                 "brak odpływu ścieków",
-                "zalane drogi, chodniki, studzienki",
-                "zalane piwnice, garaże",
                 "zła jakość wody",
                 "brak wody",
                 "gryzonie w kanalizacji",
@@ -90,6 +89,11 @@ final public class Categories {
                 "śnieg na dachach budynków",
                 "odśnieżanie ulic i chodników",
                 "odśnieżanie przystanków",
+                "inne"
+            }, {//Straż miejska
+                "Spożywanie alkoholu w miejscu publicznym",
+                "Zakłócanie ciszy",
+                "Częste bójki",
                 "inne"
             }, {//pusta tablica = "inne"
             }

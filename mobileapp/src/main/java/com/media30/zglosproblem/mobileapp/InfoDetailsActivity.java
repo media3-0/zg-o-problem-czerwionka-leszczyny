@@ -38,7 +38,7 @@ public class InfoDetailsActivity extends ActionBarActivity {
         tv.setText(info.getTitle());
         tv = (TextView)findViewById(R.id.tvInfo);
         tv.setText(info.getInfo());
-        if(!TextUtils.isEmpty(info.getImageUrl())){
+        if(info.isImage()){
             ImageView iv = (ImageView)findViewById(R.id.ivInfoImage);
             mAttacher = new PhotoViewAttacher(iv);
             ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar);
