@@ -25,7 +25,7 @@ final public class Categories {
             R.drawable.zwierzeta,
             R.drawable.smieci,
             R.drawable.odsniezanie,
-            R.drawable.lokalowe //fixme : ikonka dla straży miejskiej!
+            R.drawable.porzadek_spokoj
     };
 
     public static String [][] subcategories = new String[][] {
