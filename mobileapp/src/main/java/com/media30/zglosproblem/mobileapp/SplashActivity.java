@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.Window;
+import com.crashlytics.android.Crashlytics;
 
 
 public class SplashActivity extends Activity {
