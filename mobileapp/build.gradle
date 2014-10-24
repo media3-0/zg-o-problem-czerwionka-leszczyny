@@ -27,7 +27,7 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file('klucz.jks')
+            storeFile file('../../klucz.jks')
             storePassword 'nekro1991'
             keyAlias 'media30releasekey'
             keyPassword 'nekro1991'
