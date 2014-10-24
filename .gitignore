@@ -4,3 +4,14 @@ gradle
 mobileapp\build
 build
 local.properties
+mobileapp/app.iml
+mobileapp/src/main/res/values/com_crashlytics_export_strings.xml
+mobileapp/src/main/assets/crashlytics-build.properties
+Thumbs.db
+*.apk
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+
